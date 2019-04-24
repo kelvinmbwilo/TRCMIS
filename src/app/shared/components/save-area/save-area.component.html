@@ -1,0 +1,35 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 p-0">
+      <p @fadeIn *ngIf="showConfirm" class="text-right">
+        {{ confirmText }}
+        <button mat-mini-fab style="color: white; background-color: red; border-radius: 50%!important;" @fadeIn (click)="showConfirm = false">
+          <mat-icon>clear</mat-icon>
+        </button> &nbsp;
+        <button mat-mini-fab style="color: white; background-color: green; border-radius: 50%!important;" @fadeIn (click)="onSave(false)">
+          <mat-icon>done</mat-icon>
+        </button>
+      </p>
+      <button
+        @fadeIn
+        type="button"
+        *ngIf="!showConfirm"
+        class="fa-pull-right"
+        [disabled]="saveDisabled"
+        mat-raised-button color="primary"
+        (click)="onSave(true)">
+        <mat-icon>{{saveIcon}}</mat-icon> {{ saveText }}
+      </button>
+      <button
+        type="button"
+        @fadeIn
+        *ngIf="!showConfirm && showCancel"
+        class="fa-pull-right"
+        mat-button color="warn"
+        (click)="onClose()">
+        <mat-icon>close</mat-icon> {{ cancelText }}
+      </button>
+    </div>
+  </div>
+
+</div>

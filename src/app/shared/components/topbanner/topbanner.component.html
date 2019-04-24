@@ -1,0 +1,9 @@
+<mat-toolbar class="no-print">
+  <mat-toolbar-row>
+    <h3 [routerLink]="'/page/'+url" style="cursor: pointer">
+      <i style="color: #07587f" class=" mr-2 fa fa-{{image}}"></i>
+      {{ title }}
+    </h3>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>

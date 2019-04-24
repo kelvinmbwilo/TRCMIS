@@ -1,0 +1,77 @@
+<app-table-form
+  title="Dashboard"
+  image="dashboard"
+  [viewDetails]="false"
+  [hideAdd]="true"
+>
+  <ng-container ngProjectAs="table">
+    <div class="main-stats-container p-3" style="margin-bottom: 25px">
+      <app-summary-card
+        image="icons8-send-job-list-80"
+        [route]="['report']"
+        [loading]="false"
+        [value]="140"
+        additional_information="Last Three Month"
+        top_title="Clients"
+        low_title="Refereed">
+      </app-summary-card>
+
+      <app-summary-card
+        image="ltf"
+        [route]="['report']"
+        [value]="100"
+        [loading]="false"
+        additional_information="Last Three Month"
+        top_title="Lost to"
+        low_title="Followup">
+      </app-summary-card>
+
+      <app-summary-card
+        image="registration"
+        [value]="760"
+        [loading]="false"
+        [route]="['report']"
+        additional_information="Last Month"
+        top_title="Clients"
+        low_title="Registered">
+      </app-summary-card>
+
+      <app-summary-card
+        image="chw"
+        [route]="['report']"
+        [value]="410"
+        [loading]="false"
+        additional_information="Community Health Worker"
+        top_title="CHW"
+        low_title="Available">
+      </app-summary-card>
+
+    </div>
+    <div class="grid-container">
+
+
+      <mat-grid-list cols="2" rowHeight="350px">
+        <mat-grid-tile [ngClass]="routeAnimationsElements" *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                {{card.title}}
+                <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                  <button mat-menu-item>Expand</button>
+                  <button mat-menu-item>Remove</button>
+                </mat-menu>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+              <div>Card Content Here</div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </ng-container>
+</app-table-form>
+

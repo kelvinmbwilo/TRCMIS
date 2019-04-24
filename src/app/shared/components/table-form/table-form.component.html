@@ -1,0 +1,49 @@
+<app-topbanner
+  [title]="title"
+  [image]="image"
+  [url]="''"
+></app-topbanner>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <ng-content select="summary"></ng-content>
+    </div>
+
+    <div class="col-md-12">
+      <div [@tableSize]="!viewDetails ? 'hundred' : (smallForm ? 'eighty': animationSize)">
+          <ng-content select="table"></ng-content>
+        </div>
+
+        <div [@formSize]="viewDetails ? (smallForm ? 'twenty': animationSize) : 'zero'">
+          <h5 class="mat-divider-title mt-3 row pl-3 pr-3">
+
+            <span *ngIf="formTitle"> {{ formTitle }} </span>
+            <!-- This fills the remaining space of the current row -->
+            <span class="example-fill-remaining-space"></span>
+
+            <a title="Close Form" (click)="closeForm()" class="pull-right cursor">
+              <mat-icon>close</mat-icon>
+            </a>
+          </h5>
+          <mat-divider></mat-divider>
+          <p *ngIf="loading">Saving Data...</p>
+          <mat-progress-bar mode="indeterminate" *ngIf="loading">
+          </mat-progress-bar>
+          <mat-card>
+            <ng-content select="form"></ng-content>
+          </mat-card>
+        </div>
+      <!-- /.col-md-12 -->
+    </div>
+
+
+  </div>
+
+</div>
+
+
+<div class="col-md-12" *ngIf="!viewDetails">
+  <a *ngIf="!hideAdd" title="Add" (click)="add()" mat-fab color="primary" class="add-item">
+    <mat-icon>add</mat-icon>
+  </a>
+</div>

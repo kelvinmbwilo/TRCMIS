@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'htmr-web';
+  links = ['link1', 'link1', 'link1' ];
+  showInfo(link) {}
 }

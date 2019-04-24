@@ -1,0 +1,35 @@
+.ks-on-off {
+  width: 84px;
+  min-width: 84px;
+}
+
+.ks-checkbox-slider.ks-on-off.ks-solid input[type=checkbox]:checked + .ks-indicator {
+  left: 62px;
+}
+
+.nopadding {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.example-fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+
+
+.mat-divider-title{
+  color: #8e8e8e;
+}
+
+.mat-divider {
+  border-top-color: #949494;
+  margin-bottom: 15px;
+  margin-top: 14px;
+}
+
+.cursor {
+  cursor: pointer;
+}

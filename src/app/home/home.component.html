@@ -1,0 +1,88 @@
+<nav class="main-nav mat-elevation-z6">
+  <mat-toolbar class="toolbar no-print" style="background-color: #07587f">
+    <button
+      type="button"
+      aria-label="Toggle sidenav"
+      mat-icon-button
+      (click)="drawer.toggle()"
+      *ngIf="isHandset$ | async">
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+
+    <button
+      type="button"
+      aria-label="Toggle sidenav"
+      mat-icon-button
+      (click)="isOpen = !isOpen"
+      title="Toggle Menu"
+      *ngIf="!(isHandset$ | async)">
+      <mat-icon class="secondary-color" aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    <span class="secondary-color">
+      <img src="assets/img/logo.png"
+           style="height: 75px; width: 75px; margin-left: 10px; margin-right: 21px; border-radius: 50%;">
+    </span>
+    <span style="display: inline-block; margin-top: 14px; margin-left: 7px; font-size: 33px">
+      TRCMIS
+      <span *ngIf="isHandset$ | async">iLMS</span>
+    </span>
+
+    <!-- This fills the remaining space of the current row -->
+    <span class="example-fill-remaining-space"></span>
+
+    <!--    user dropdown menu-->
+    <mat-menu #appMenu="matMenu">
+      <a (click)="logout()" mat-menu-item>
+        <i class="fa fa-user"></i>
+        Profile
+      </a>
+      <a (click)="logout()" mat-menu-item>
+        <i class="fa fa-key"></i>
+        Change Password
+      </a>
+      <mat-divider></mat-divider>
+      <a (click)="logout()" mat-menu-item>
+        <i class="fa fa-sign-out"></i>
+        Logout
+      </a>
+
+    </mat-menu>
+
+    <button mat-button [matMenuTriggerFor]="appMenu">
+      <span class="secondary-color">
+        <mat-icon fontSet="fa" fontIcon="fa-user" style="margin-top: 6px"></mat-icon>
+        username
+      </span>
+    </button>
+  </mat-toolbar>
+</nav>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav no-print" fixedInViewport="false"
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="!(isHandset$ | async) && isOpen">
+    <mat-toolbar>TRCMIS</mat-toolbar>
+    <app-placeholder *ngIf="loading$ | async" [numberOfLines]="30"></app-placeholder>
+    <mat-nav-list>
+      <ng-container *ngFor="let linkItem of navigation">
+        <!--        <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="linkItem.links" >-->
+        <!--          <div class="text-center"><i class="{{linkItem.icon}}"></i></div>-->
+        <!--          <h3>{{linkItem.name}}</h3>-->
+        <!--        </div>-->
+        <a mat-list-item [routerLink]="linkItem.links" routerLinkActive="active-menu">
+          <i style="color: #07587f" class="{{linkItem.icon}}"></i> &nbsp;&nbsp;
+          <span style="font-weight: 500">{{linkItem.name}}</span>
+        </a>
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+
+    <!-- Add Content Here -->
+    <div class="content" style="margin-top: 80px"
+         [@routeAnimations]="o.isActivated ? o.activatedRoute : ''">
+      <router-outlet #o="outlet"></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

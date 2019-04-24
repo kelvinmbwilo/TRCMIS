@@ -1,0 +1,31 @@
+<div class="tree-input" appClickOutside (clickOutside)="hideOptions = true">
+  <div class="show_items text-left" (click)="displayPerTree()">
+    <span *ngIf="selected_items.length == 1">{{ prefix }}</span>
+    <span *ngIf="selected_items.length > 1">{{ prefix_multiple }}</span>
+    <span *ngIf="selected_items.length !== 0">
+       <span  class="selected-item ng-binding ng-scope">
+        {{ selected_items.length}} Items selected
+         <a (click)="deActivateNode($event)" title="clear all" class="removeitem">x</a>
+      </span>
+    </span>
+    <span *ngIf="selected_items.length == 0">
+      {{ placeholder }}
+    </span>
+    <span class="fa fa-caret-down pull-right text-muted"></span>
+  </div>
+  <div class="tree-view" [ngClass]="{'hiddenTree':hideOptions}">
+    <div style="padding: 10px">
+      <input class="form-control" [(ngModel)]="filterText">
+    </div>
+    <ul class="nav nav-pills flex-column">
+      <li *ngFor="let item of items | filterByName: filterText "
+          class="period" (click)="selectItem(item)"
+          [ngClass]="{'selected': checkItemAvailabilty(item,selected_items)}"
+          title="Click to select"
+          style="font-size: 11px; border-bottom: 1px solid rgba(0,0,0,0.1)"
+      >
+        {{ item.name }}
+      </li>
+    </ul>
+  </div>
+</div>

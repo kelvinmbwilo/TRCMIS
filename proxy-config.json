@@ -1,0 +1,16 @@
+{
+  "/api": {
+    "target1": "http://45.56.90.103:8080",
+    "target": "http://23.92.25.157:8080",
+    "secure": "true",
+    "auth": "admin:district",
+    "changeOrigin": true
+  },
+  "/": {
+    "target1": "http://45.56.90.103:8080",
+    "target": "http://23.92.25.157:8080",
+    "secure": "true",
+    "auth": "admin:district",
+    "changeOrigin": true
+  }
+}

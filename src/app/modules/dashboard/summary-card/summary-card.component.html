@@ -1,0 +1,20 @@
+<mat-card
+  class="card-1 cursor"
+  [ngClass]="routeAnimationsElements">
+  <mat-card-content>
+    <app-placeholder *ngIf="loading" [useGrid]="true" [numberOfLines]="12"></app-placeholder>
+    <div class="container-fluid" *ngIf="!loading" (click)="goTo()">
+      <div class="row">
+        <div class="col-sm-4">
+          <img style="height: 64px!important;" src="assets/img/{{image}}.png" alt="image">
+        </div>
+        <div class="col-sm-8">
+          <p class="text-right">{{ top_title }} <br> {{ low_title }}</p>
+          <h3 class="text-right">{{ value | number }}</h3>
+        </div>
+      </div>
+      <hr>
+      <p class="text-muted">{{ additional_information }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>
