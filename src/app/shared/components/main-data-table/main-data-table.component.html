@@ -45,7 +45,11 @@
         <span *ngIf="column.type == 'date'">
             {{ element[column?.name] | date:'mediumDate' }}
         </span>
-        <span *ngIf="column.type != 'date' && column.type != 'number'">
+        <span *ngIf="column.type == 'boolean'">
+          <mat-icon *ngIf="element[column?.name]" fontSet="fa" fontIcon="fa-check"></mat-icon>
+<!--          {{ element[column?.name] }}-->
+        </span>
+        <span *ngIf="column.type != 'date' && column.type != 'number' && column.type != 'boolean'">
             {{ element[column?.name] }}
           </span>
       </td>
@@ -67,31 +71,32 @@
             {{tableConfigurations.customPrimaryMessage}}
           </a>
           <a @fadeIn class="cursor text-primary action-button mr-1 btn-float" title="print"
-             (click)="printItem(tableListItem?.id)"
+             (click)="printItem(tableListItem)"
              style="border-radius: 50%"
              *ngIf="tableConfigurations?.actionIcons?.print && !showDelete[tableListItem?.id]">
             <mat-icon fontSet="fa" fontIcon="fa-print"></mat-icon>
 <!--            <i class="fa fa-print"></i>-->
           </a>
           <a @fadeIn class="btn btn-sm btn-light action-button mr-1 btn-float" title="view details"
-             (click)="viewItemDetails(tableListItem?.id)"
+             (click)="viewItemDetails(tableListItem)"
              style="border-radius: 50%"
              *ngIf="tableConfigurations?.actionIcons?.more && !showDelete[tableListItem?.id]">
             <mat-icon fontSet="fa" fontIcon="fa-list"></mat-icon>
 <!--            <i class="fa fa-list"></i>-->
           </a>
           <a @fadeIn class="btn btn-sm btn-light action-button mr-1 btn-float" title="edit"
-             (click)="editItem(tableListItem?.id)"
+             (click)="editItem(tableListItem)"
              style="border-radius: 50%"
              *ngIf="tableConfigurations?.actionIcons?.edit && !showDelete[tableListItem?.id]">
-            <mat-icon fontSet="fa" fontIcon="fa-pencil-alt"></mat-icon>
+            <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
+            <i class="fas fa-pencil-alt"></i>
 <!--            <i class="fa fa-pencil"></i>-->
           </a>
           <a @fadeIn class="btn btn-sm btn-light action-button mr-1 btn-float" title="Download"
              (click)="downloadItem(tableListItem)"
              style="border-radius: 50%"
              *ngIf="tableConfigurations?.actionIcons?.download && !showDownload[tableListItem?.id]">
-            <mat-icon fontSet="fa" fontIcon="fa-pencil"></mat-icon>
+            <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
 <!--            <i class="fa fa-cloud-download-alt"></i>-->
           </a>
 
@@ -141,7 +146,7 @@
             </button>
             <button mat-mini-fab style="color: white; background-color: green; border-radius: 50%!important;" @fadeIn
                     *ngIf="!tableConfigurations.deleting[tableListItem?.id]"
-                    (click)="deleteItem(tableListItem?.id)">
+                    (click)="deleteItem(tableListItem)">
               <mat-icon>done</mat-icon>
             </button>
           </p>

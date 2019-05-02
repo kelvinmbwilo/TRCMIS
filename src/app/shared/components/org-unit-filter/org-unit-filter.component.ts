@@ -127,9 +127,10 @@ export class OrgUnitFilterComponent implements OnInit {
       this.locationService.loadTreeLocations().subscribe(
         (locations => {
           // get top level locations
-          const top_locations = locations.filter(location => location.parentLocation == null);
+          const top_locations = locations;
           // filter down to remain with only visit facilities
-          let visit_location: any = _.find(top_locations, {uuid: 'ed787525-d770-11e8-ba9c-f23c917bb7ec'});
+          const starting_location = localStorage.getItem('htmr-starting-location');
+          let visit_location: any = _.find(top_locations, {uuid: starting_location ? starting_location : 'ed787525-d770-11e8-ba9c-f23c917bb7ec'});
           this.visit_locations.push(
             {
               name: visit_location.name,
@@ -270,7 +271,7 @@ export class OrgUnitFilterComponent implements OnInit {
     //       }
     //     );
   }
-
+  onEvent = ($event) => console.log($event);
   getChildOrgunits(orgunits, uuid): any {
     return _.find(orgunits, {uuid});
   }
@@ -365,7 +366,8 @@ export class OrgUnitFilterComponent implements OnInit {
   }
 
   // add item to array of selected items when item is selected
-  activateOrg = ($event) => {
+  activateOrg($event) {
+    console.log('nafika');
     if (this.orgunit_model.selection_mode === 'Usr_orgUnit') {
       this.orgunit_model.selection_mode = 'orgUnit';
       // this.period_selector.reset();
@@ -383,6 +385,13 @@ export class OrgUnitFilterComponent implements OnInit {
   }
 
   emit(showUpdate: boolean) {
+    console.log({
+      visit_locations: this.visit_locations,
+      starting_name: this.getProperPreOrgunitName(),
+      items: this.orgunit_model.selected_orgunits,
+      name: 'ou',
+      value: this.getOrgUnitsForAnalytics(this.orgunit_model,  this.pickChildren)
+    });
     if (showUpdate) {
       this.onOrgUnitUpdate.emit({
         visit_locations: this.visit_locations,

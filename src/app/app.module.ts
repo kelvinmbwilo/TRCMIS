@@ -10,6 +10,26 @@ import {LoginComponent} from './login/login.component';
 import {HomeComponent} from './home/home.component';
 import {SummaryCardComponent} from './modules/dashboard/summary-card/summary-card.component';
 import {DashboardComponent} from './modules/dashboard/dashboard.component';
+import { ProvidersReportComponent } from './modules/providers-report/providers-report.component';
+import { FacilityRefferalReportComponent } from './modules/providers-report/facility-refferal-report/facility-refferal-report.component';
+import { InterFacilityRefferalReportComponent } from './modules/providers-report/inter-facility-refferal-report/inter-facility-refferal-report.component';
+import { ProvidersRefferalReportComponent } from './modules/providers-report/providers-refferal-report/providers-refferal-report.component';
+import {ReportsComponent} from './modules/reports/reports.component';
+import { SettingsComponent } from './modules/settings/settings.component';
+import { IndicatorsComponent } from './modules/settings/indicators/indicators.component';
+import { ServiceComponent } from './modules/settings/service/service.component';
+import { RefferealTypeComponent } from './modules/settings/reffereal-type/reffereal-type.component';
+import { RefferealFeedbackComponent } from './modules/settings/reffereal-feedback/reffereal-feedback.component';
+import { RegistrationReasonComponent } from './modules/settings/registration-reason/registration-reason.component';
+import { CardFilterComponent } from './modules/dashboard/card-filter/card-filter.component';
+import { ServiceIndicatorComponent } from './modules/settings/service/service-indicator/service-indicator.component';
+import { TotalRegisteredClientsComponent } from './modules/reports/total-registered-clients/total-registered-clients.component';
+import { TotalReferralsIssuedComponent } from './modules/reports/total-referrals-issued/total-referrals-issued.component';
+import { TotalSuccessfulComponent } from './modules/reports/total-successful/total-successful.component';
+import { TotalIssuedLostFollowupComponent } from './modules/reports/total-issued-lost-followup/total-issued-lost-followup.component';
+import { TotalLostFollowupComponent } from './modules/reports/total-lost-followup/total-lost-followup.component';
+import { TotalFailedReferralsComponent } from './modules/reports/total-failed-referrals/total-failed-referrals.component';
+import { SuccessfulMaraliaReferalsComponent } from './modules/reports/successful-maralia-referals/successful-maralia-referals.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +37,27 @@ import {DashboardComponent} from './modules/dashboard/dashboard.component';
     LoginComponent,
     HomeComponent,
     SummaryCardComponent,
-    DashboardComponent
+    DashboardComponent,
+    ProvidersReportComponent,
+    FacilityRefferalReportComponent,
+    InterFacilityRefferalReportComponent,
+    ProvidersRefferalReportComponent,
+    ReportsComponent,
+    SettingsComponent,
+    IndicatorsComponent,
+    ServiceComponent,
+    RefferealTypeComponent,
+    RefferealFeedbackComponent,
+    RegistrationReasonComponent,
+    CardFilterComponent,
+    ServiceIndicatorComponent,
+    TotalRegisteredClientsComponent,
+    TotalReferralsIssuedComponent,
+    TotalSuccessfulComponent,
+    TotalIssuedLostFollowupComponent,
+    TotalLostFollowupComponent,
+    TotalFailedReferralsComponent,
+    SuccessfulMaraliaReferalsComponent
   ],
   imports: [
     BrowserModule,

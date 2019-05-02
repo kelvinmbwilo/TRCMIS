@@ -6,6 +6,8 @@ import {filter, map, mergeMap} from 'rxjs/operators';
 import {routeAnimations} from '../shared/animations/router-animation';
 import {ActivatedRoute, NavigationCancel, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
+import {load} from '@angular/core/src/render3';
+import {LocationService} from '../services/location.service';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +24,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   loading$: Observable<boolean>;
 
   navigation = [];
+  username = '';
 
   loading: boolean = false;
   constructor(
@@ -29,14 +32,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private  userService: UserService,
-    private titleService: Title
+    private titleService: Title,
+    private locationService: LocationService,
   ) {
     this.navigation = userService.getNavigation();
   }
 
   ngOnInit() {
     const token = localStorage.getItem('htmr-web-token');
-    if (!token) {
+    const location = localStorage.getItem('htmr-starting-location');
+    this.username = localStorage.getItem('trcmis-user');
+    if (!token || !location) {
       this.router.navigate( ['', 'login']);
     }
   }
@@ -54,6 +60,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.userService.removeLocalStorageNavigation();
     this.userService.deleteToken();
     this.userService.loggedIn = false;
+    this.locationService.locations = [];
     this.router.navigate( ['', 'login']);
   }
 

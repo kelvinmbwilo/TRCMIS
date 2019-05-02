@@ -106,6 +106,14 @@ body {
   background-color: rgba(250, 207, 26, 0.54) !important;
 }
 
+a.add-item {
+  position: fixed;
+  bottom: 40px;
+  right: 10px;
+  margin-left: 5px;
+}
+
+
 @media print {
   .sidenav {
     width: 0px !important;
@@ -130,4 +138,22 @@ body {
     display: none !important;
   }
 
+}
+
+.reportTable th {
+  font-size: 12px!important;
+  text-align: center;
+}
+
+.reportTable td {
+  font-size: 12px!important;
+}
+
+.reportTable .gen {
+  text-align: center!important;
+  width: 12px;
+}
+
+.reportTable .gen1 {
+  text-align: center!important;
 }

@@ -1,0 +1,20 @@
+<app-table-form
+ image="pie-chart"
+ [title]="title"
+ [hideAdd]="true"
+>
+
+  <ng-container ngProjectAs="table">
+    <nav mat-tab-nav-bar>
+      <a mat-tab-link
+         *ngFor="let link of navLinks"
+         [routerLink]="link.link"
+         (click)="title = link.label"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive">
+        {{link.label}}
+      </a>
+    </nav>
+    <router-outlet></router-outlet>
+  </ng-container>
+</app-table-form>

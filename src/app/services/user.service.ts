@@ -39,21 +39,21 @@ export class UserService {
     // },
     {
       name: 'Providers Reports',
-      links: ['', 'providers_report'],
+      links: ['', 'providers_report', 'provide-report'],
       icon: 'fa fa-pie-chart',
       roles: ['System Developer'],
       accessibility: false
     },
     {
       name: 'Other Reports',
-      links: ['/home', 'reports'],
+      links: ['', 'reports'],
       icon: 'fa fa-bar-chart',
       roles: ['System Developer'],
       accessibility: false
     },
     {
       name: 'Settings',
-      links: ['/home', 'settings', 'indicator_service_mappings'],
+      links: ['', 'settings', 'services'],
       icon: 'fa fa-cogs',
       roles: ['System Developer'],
       accessibility: false
@@ -157,6 +157,11 @@ export class UserService {
   login(loginCredentials) {
     this.http.prepareToken(loginCredentials);
     return this.http.getOpenMRS('user?v=full&username=' + loginCredentials.username);
+  }
+
+  login1(loginCredentials) {
+    this.http.prepareToken(loginCredentials);
+    return this.http.getOpenSRP('security/authenticate');
   }
 
   sessionCheck() {

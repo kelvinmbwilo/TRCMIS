@@ -6,6 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class WithoutPipe implements PipeTransform {
 
   transform(value: any[], property: string, val: any): any {
+    console.log({value}, {property}, {val});
     if (!property) {
       return value;
     }
@@ -15,6 +16,7 @@ export class WithoutPipe implements PipeTransform {
     if (!val) {
       return value;
     }
+    console.log(val);
     return value.filter((v) => !(val.includes(v[property])));
   }
 

@@ -1,0 +1,96 @@
+<app-table-form
+  image="pie-chart"
+  title="Indicators"
+  [hideAdd]="false"
+  [viewDetails]="viewDetails"
+  animationSize="largeForm"
+  [smallForm]="true"
+  [formTitle]="formTitle"
+  (addItem)="add()"
+  (close)="closeForm()"
+  [showTopBanner]="false"
+>
+
+  <ng-container ngProjectAs="table">
+
+    <app-main-data-table
+      *ngIf="tableConfigurations.tableColumns"
+      [tableConfigurations]="tableConfigurations"
+      [loading]="loading"
+      [tableList]="items"
+      (rowPreview)="viewMore($event)"
+      (rowCustomPrimary)="setIndicators($event)"
+      (rowUpdate)="onUpdate($event)"
+      (rowDelete)="onDelete($event)"
+    ></app-main-data-table>
+  </ng-container>
+  <ng-container ngProjectAs="form">
+    <div *ngIf="view_type == 'add'" class="container-fluid">
+      <form [formGroup]="submitForm">
+        <!--         English Name-->
+        <p class="clearfix">
+          <mat-form-field appearance="outline">
+            <mat-label> English Name</mat-label>
+            <input
+              formControlName="serviceName"
+              matInput
+              required
+              placeholder="English Name">
+            <mat-error *ngIf="!submitForm.get('serviceName').valid && submitForm.get('serviceName').touched">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+        </p>
+
+        <!--         Swahili Name-->
+        <p class="clearfix">
+          <mat-form-field appearance="outline">
+            <mat-label> Swahili Name</mat-label>
+            <input
+              formControlName="serviceNameSw"
+              matInput
+              required
+              placeholder="Swahili Name">
+            <mat-error *ngIf="!submitForm.get('serviceNameSw').valid && submitForm.get('serviceNameSw').touched">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+        </p>
+
+<!--         Category-->
+        <p class="clearfix" *ngIf="itemId == null">
+          <mat-form-field appearance="outline">
+            <mat-label> Category</mat-label>
+            <input
+              formControlName="category"
+              matInput
+              required
+              placeholder="Category">
+            <mat-error *ngIf="!submitForm.get('category').valid && submitForm.get('category').touched">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+        </p>
+
+        <div class="col-sm-12">
+          <app-loader message="Saving Information Please Wait.." *ngIf="saving_data"></app-loader>
+          <app-save-area
+            *ngIf="!loading"
+            @fadeIn
+            [saveDisabled]="submitForm.invalid || saving_data"
+            (save)="save(submitForm.value)"
+            (cancel)="closeForm()"
+            [confirmFirst]="true"
+            [confirmText]="'Confirm Saving Information?'"
+          ></app-save-area>
+        </div>
+      </form>
+    </div>
+
+    <app-service-indicator
+      [serviceItem]="currentService"
+      *ngIf="view_type == 'indicator'"
+      (close)="doneMapping($event)"
+    ></app-service-indicator>
+  </ng-container>
+</app-table-form>

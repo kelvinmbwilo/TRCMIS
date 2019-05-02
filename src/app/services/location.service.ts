@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 @Injectable({providedIn: 'root'})
 export class LocationService {
 
-  locations: Location[];
+  locations: Location[] = [];
   loadingMessage = 'Loading locations';
 
   constructor(private http: HttpClientService) {
@@ -49,33 +49,36 @@ export class LocationService {
   loadTreeLocations(): Observable<Array<Location>> {
 
     return Observable.create(observer => {
+      if (this.locations.length > 0) {
+        observer.next(this.locations);
+        observer.complete();
+      } else {
+        this.http.getOpenMRS(`location?v=default&limit=1000`)
+          .subscribe((locationResponse: any) => {
 
-      this.http.getOpenMRS(`location?v=default&limit=1000`)
-        .subscribe((locationResponse: any) => {
-
-            this.locations = locationResponse.results
-              .map((location) => {
-              return {
-                uuid: location.uuid,
-                id: location.id,
-                name: location.name,
-                display: location.display,
-                links: location.links,
-                tags: location.tags,
-                parentLocation: location.parentLocation,
-                childLocations: location.childLocations,
-                confirmDelete: false
-              };
+              this.locations = locationResponse.results
+                .map((location) => {
+                  return {
+                    uuid: location.uuid,
+                    id: location.id,
+                    name: location.name,
+                    display: location.display,
+                    links: location.links,
+                    tags: location.tags,
+                    parentLocation: location.parentLocation,
+                    childLocations: location.childLocations,
+                    confirmDelete: false
+                  };
+                });
+              this.loadingMessage = 'loaded successfully';
+              observer.next(this.locations);
+              observer.complete();
+            },
+            error => {
+              this.loadingMessage = 'loading failed';
+              observer.error('some error occur');
             });
-            this.loadingMessage = 'loaded successfully';
-            observer.next(this.locations);
-            observer.complete();
-          },
-          error => {
-            this.loadingMessage = 'loading failed';
-            observer.error('some error occur');
-          });
-
+      }
     });
 
   }

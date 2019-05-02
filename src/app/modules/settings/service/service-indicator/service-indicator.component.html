@@ -1,0 +1,43 @@
+
+<div class="container-fluid">
+  <app-loader *ngIf="loadingIndicators" message="Preparing Indicators"></app-loader>
+
+  <div *ngIf="!loadingIndicators">
+    <p class="lead">Select Indicators to be mapped to {{serviceItem?.serviceName}}</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Select Indicators</mat-label>
+      <mat-select
+        [(ngModel)]="selectedIndicators"
+        multiple
+        placeholder="Select Indicators">
+        <app-mat-select-search [(ngModel)]="searchValue"></app-mat-select-search>
+        <mat-option
+          *ngFor="let item of indicators | without:'indicatorId':excludeIds | search:'indicatorName':searchValue"
+          [value]="item.indicatorId"
+        >{{ item.indicatorName }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <p class="clearfix">
+      <app-loader message="Saving Information Please Wait.." *ngIf="saving_data"></app-loader>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="btn-block"
+        [disabled]="selectedIndicators.length  == 0"
+        (click)="save()"
+      >Map Indicators</button>
+    </p>
+
+  </div>
+  <div *ngIf="!loadingIndicators">
+    <h5> Current Mapped Indicators</h5>
+    <app-main-data-table
+      *ngIf="tableConfigurations.tableColumns"
+      [tableConfigurations]="tableConfigurations"
+      [loading]="false"
+      [tableList]="currentIndicators"
+      (rowDelete)="onDelete($event)"
+    ></app-main-data-table>
+  </div>
+</div>

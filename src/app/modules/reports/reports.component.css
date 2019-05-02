@@ -1,0 +1,15 @@
+.list-group-item {
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  transform: scale(1.02) !important;
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  font-weight: 600;
+  border-bottom: 2px solid #0277bd;
+}
+
+.hidden {
+  display: none;
+}

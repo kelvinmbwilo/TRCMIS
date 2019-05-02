@@ -19,6 +19,8 @@ import {TableFormComponent} from './components/table-form/table-form.component';
 import {MatSelectSearchComponent} from './components/mat-select-search/mat-select-search.component';
 import {ShowButtonPipe} from './components/main-data-table/show-button.pipe';
 import {FilterByNamePipe} from './pipes/filter-by-name.pipe';
+import {SafeHtmlPipe} from './pipes/safe-html.pipe';
+import { TableStyleDirective } from './directives/table-style.directive';
 
 @NgModule({
   imports: [
@@ -45,6 +47,8 @@ import {FilterByNamePipe} from './pipes/filter-by-name.pipe';
     MatSelectSearchComponent,
     ShowButtonPipe,
     FilterByNamePipe,
+    SafeHtmlPipe,
+    TableStyleDirective
   ],
   exports: [
     SearchPipe,
@@ -65,6 +69,7 @@ import {FilterByNamePipe} from './pipes/filter-by-name.pipe';
     MatSelectSearchComponent,
     ShowButtonPipe,
     FilterByNamePipe,
+    SafeHtmlPipe
   ]
 })
 export class SharedModule {}

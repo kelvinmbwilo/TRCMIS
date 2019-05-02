@@ -1,0 +1,89 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <h5>
+        {{ report?.name}} from {{startDate | date:'mediumDate'}} to {{ endDate  | date:'mediumDate'}} for {{ orgUnitName }}
+        <button (click)="downloadExcel()" mat-raised-button class="pull-right no-print">
+          <img src="assets/img/csv.png" style="height: 26px">
+        </button>
+        <button (click)="print()" mat-raised-button class="pull-right no-print" style="margin-right: 5px">
+          <img src="assets/img/print.png" style="height: 26px">
+        </button>
+      </h5>
+    </div>
+  </div>
+  <div class="row mt-3 no-print">
+    <div class="col-sm-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Visible Rows</mat-label>
+        <mat-select
+          (selectionChange)="changeRows($event)"
+          [(ngModel)]="visibleRows"
+          multiple
+          placeholder="Select Indicators">
+          <app-mat-select-search [(ngModel)]="searchRows"></app-mat-select-search>
+          <mat-option
+            *ngFor="let item of rows | search:'indicatorName':searchRows"
+            [value]="item"
+          >{{ item }}</mat-option>
+        </mat-select>
+        <mat-hint *ngIf="hiddenRows.length > 0">{{hiddenRows.length}} hidden rows</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Visible Columns</mat-label>
+        <mat-select
+          (selectionChange)="changeColumn($event)"
+          [(ngModel)]="visibleColumns"
+          multiple
+          placeholder="Visible Columns">
+          <app-mat-select-search [(ngModel)]="searchColumns"></app-mat-select-search>
+          <mat-option
+            *ngFor="let item of columns | search:'indicatorName':searchColumns"
+            [value]="item"
+          >{{ item }}</mat-option>
+        </mat-select>
+        <mat-hint *ngIf="hiddenColumns.length > 0">{{hiddenColumns.length}} hidden columns</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table #dataTable class="table table-bordered reportTable mt-3">
+        <thead>
+        <tr>
+          <th colspan="2"></th>
+          <th class="text-center" rowspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">JUMLA</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('WANAUME') && visibleColumns.includes('WANAWAKE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('WANAUME') || visibleColumns.includes('WANAWAKE')">JINSIA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th style="width: 10px">SN</th>
+          <th>{{ main_title }}</th>
+          <td @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')"></td>
+          <th class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('WANAUME')">ME</th>
+          <th class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('WANAWAKE')">KE</th>
+        </tr>
+        <ng-container *ngFor="let row of jsonData;">
+          <tr *ngIf="visibleRows.includes(row.itemName)">
+            <td>{{row.sn}}</td>
+            <td>{{row.itemName}}</td>
+            <td class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">{{row.total || '-'}}</td>
+            <td class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('WANAUME')">{{row.male || '-'}}</td>
+            <td class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('WANAWAKE')">{{row.female || '-'}}</td>
+          </tr>
+        </ng-container>
+        <tr>
+          <td colspan="2"><b>JUMLA</b></td>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">{{totals.total }}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('WANAUME')">{{totals.male }}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('WANAWAKE')">{{totals.female }}</th>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <div class="row">
+    <!--      Start Date-->
+    <div class="col-sm-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Start Date</mat-label>
+        <input
+          [(ngModel)]="start_date"
+          [matDatepicker]="dw"
+          matInput
+          placeholder="From"
+          [max]="end_date"
+          required/>
+        <mat-datepicker-toggle matSuffix [for]="dw"></mat-datepicker-toggle>
+        <mat-datepicker #dw></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!--      End Date-->
+    <div class="col-sm-3">
+      <mat-form-field appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input
+          [(ngModel)]="end_date"
+          [matDatepicker]="dw1"
+          matInput
+          placeholder="To"
+          [min]="start_date"
+          required/>
+        <mat-datepicker-toggle matSuffix [for]="dw1"></mat-datepicker-toggle>
+        <mat-datepicker #dw1></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-4 mt-1">
+      <app-org-unit-filter
+        (onOrgUnitChange)="changeOrgUnit($event)"
+        [orgunit_tree_config]="orgunit_tree_config">
+      </app-org-unit-filter>
+    </div>
+    <div class="col-sm-2">
+      <button
+        style="margin-top: 5px; height: 46px;"
+        [disabled]="start_date == '' || end_date == '' || orgunit == null"
+        class="btn btn-block btn-outline-primary"
+        (click)="getReport()"
+      >Get Report</button>
+    </div>
+  </div>
+</div>

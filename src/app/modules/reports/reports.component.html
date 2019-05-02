@@ -1,0 +1,178 @@
+<app-table-form
+  image="pie-chart"
+  title="Summary Reports"
+  [hideAdd]="true"
+>
+
+  <ng-container ngProjectAs="table">
+
+    <div class="container-fluid mt-3 no-print" *ngIf="!showReport" @fadeIn>
+      <h4>Report List</h4>
+      <small @fadeIn *ngIf="!report_loading">Select any report to view data.</small>
+      <app-loader @fadeIn *ngIf="report_loading" message="Getting List of Available Reports"></app-loader>
+      <ul class="list-group">
+        <li
+          @fadeIn
+          [ngClass]="routeAnimationsElements"
+          class="list-group-item"
+          (click)="changeReport(report)"
+          *ngFor="let report of reports">
+          {{ report.name }}
+          <i class="fa fa-arrow-right pull-right"></i>
+        </li>
+      </ul>
+    </div>
+
+    <div class="container-fluid mt-3" *ngIf="showReport" @fadeIn>
+      <div class="row no-print">
+        <div class="col-sm-12">
+          <h4>
+            {{ reportTitle }}
+            <button
+              class="btn btn-primary pull-right"
+              (click)="backToReports()"
+            >
+              <i class="fa fa-arrow-back"></i>
+              Back to Reports
+            </button>
+          </h4>
+        </div>
+      </div>
+
+      <div class="row no-print">
+        <!--      Start Date-->
+        <div class="col-sm-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input
+              [(ngModel)]="start_date"
+              [matDatepicker]="dw"
+              matInput
+              placeholder="From"
+              [max]="end_date"
+              required/>
+            <mat-datepicker-toggle matSuffix [for]="dw"></mat-datepicker-toggle>
+            <mat-datepicker #dw></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!--      End Date-->
+        <div class="col-sm-3">
+          <mat-form-field appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input
+              [(ngModel)]="end_date"
+              [matDatepicker]="dw1"
+              matInput
+              placeholder="To"
+              [min]="start_date"
+              required/>
+            <mat-datepicker-toggle matSuffix [for]="dw1"></mat-datepicker-toggle>
+            <mat-datepicker #dw1></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4 mt-1">
+          <app-org-unit-filter
+            (onOrgUnitChange)="changeOrgUnit($event)"
+            [orgunit_tree_config]="orgunit_tree_config">
+          </app-org-unit-filter>
+        </div>
+        <div class="col-sm-2">
+          <button
+            style="margin-top: 5px; height: 46px;"
+            [disabled]="start_date == '' || end_date == '' || orgunit == null"
+            class="btn btn-block btn-outline-primary"
+            (click)="getReport()"
+          >Get Report</button>
+        </div>
+      </div>
+      <div class="row no-print mt-4" *ngIf="loading">
+        <div class="col-sm-12">
+          <app-loader [message]="'Getting a Report Data...'"></app-loader>
+        </div>
+      </div>
+
+      <div class="row no-print mt-4" *ngIf="loading_failed">
+        <div class="col-sm-12">
+          <p class="lead text-danger">
+            Something went wrong and we are not able to get the report, Please try again.
+          </p>
+        </div>
+      </div>
+
+      <app-total-registered-clients
+        [orgUnitName]="orgunitnames"
+        [startDate]="start_date"
+        [endDate]="end_date"
+        [jsonData]="jsonData"
+        [report]="current_report"
+        main_title="CBHS - SABABU ZA USAJILI"
+        *ngIf="!loading && jsonData && reportId == '/opensrp/reports/total_registered_clients'"
+      ></app-total-registered-clients>
+      <app-total-registered-clients
+        [orgUnitName]="orgunitnames"
+        [startDate]="start_date"
+        [endDate]="end_date"
+        [jsonData]="jsonData"
+        [report]="current_report"
+        main_title="HUDUMA ZA RUFAA MBALI MBALI"
+        *ngIf="!loading && jsonData && reportId == '/opensrp/reports/total_referrals_issued'"
+      ></app-total-registered-clients>
+      <app-total-registered-clients
+        [orgUnitName]="orgunitnames"
+        [startDate]="start_date"
+        [endDate]="end_date"
+        [jsonData]="jsonData"
+        [report]="current_report"
+        main_title="HUDUMA ZA RUFAA MBALI MBALI"
+        *ngIf="!loading && jsonData && reportId == '/opensrp/reports/total_successful_referrals'"
+      ></app-total-registered-clients>
+      <app-total-issued-lost-followup
+        [orgUnitName]="orgunitnames"
+        [startDate]="start_date"
+        [endDate]="end_date"
+        [jsonData]="jsonData"
+        [report]="current_report"
+        main_title="MREJESHO WA RUFAA KUTOKA NGAZI YA JAMII"
+        *ngIf="!loading && jsonData && reportId == '/opensrp/reports/total_issued_ltfs'"
+      ></app-total-issued-lost-followup>
+      <app-total-issued-lost-followup
+        [orgUnitName]="orgunitnames"
+        [startDate]="start_date"
+        [endDate]="end_date"
+        [jsonData]="jsonData"
+        [report]="current_report"
+        main_title="MREJESHO WA RUFAA KUTOKA NGAZI YA JAMII"
+        *ngIf="!loading && jsonData && reportId == '/opensrp/reports/ltfs_feedback'"
+      ></app-total-issued-lost-followup>
+      <app-successful-maralia-referals
+        [orgUnitName]="orgunitnames"
+        [startDate]="start_date"
+        [endDate]="end_date"
+        [jsonData]="jsonData"
+        [report]="current_report"
+        main_title="AINA YA RUFAA"
+        *ngIf="!loading && jsonData && reportId == '/opensrp/reports/successful_malaria_referrals'"
+      ></app-successful-maralia-referals>
+      <app-total-registered-clients
+        [orgUnitName]="orgunitnames"
+        [startDate]="start_date"
+        [endDate]="end_date"
+        [jsonData]="jsonData"
+        [report]="current_report"
+        main_title="HUDUMA ZA RUFAA ZILIZOFELI"
+        *ngIf="!loading && jsonData && reportId == '/opensrp/reports/total_failed_referrals'"
+      ></app-total-registered-clients>
+
+      <div
+        appTableStyle
+        #reportArea
+        class="container-fluid emailClass"
+        [ngClass]="{'hidden': !html_data || jsonData}"
+        [innerHtml]="html_data | safeHtml">
+      </div>
+    </div>
+
+  </ng-container>
+</app-table-form>
+

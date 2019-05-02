@@ -36,11 +36,17 @@
       <div class="container-fluid">
         <div *ngIf="orgunit_tree_config.loading">{{ orgunit_tree_config.loading_message }}</div>
         <div class="tree-area" [ngClass]="{'someclass': orgunit_model.selected_user_orgunit.length != 0}">
+<!--          <tree-root [nodes]="nodes"-->
+<!--                     #orgtree-->
+<!--                     (toggleExpanded)="onEvent($event)"-->
+<!--                     (activate)="activateOrg($event)"-->
+<!--                     (focus)="onEvent($event)"-->
+<!--                     (blur)="onEvent($event)">-->
+<!--          </tree-root>-->
           <tree-root
             #orgtree
             [nodes]="organisationunits"
             [focused]="true"
-            [options]="customTemplateStringOrgunitOptions"
             (activate)="activateOrg($event)"
             (deactivate)="deactivateOrg($event)"
           >

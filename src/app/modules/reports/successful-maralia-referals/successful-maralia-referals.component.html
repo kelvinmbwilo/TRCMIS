@@ -1,0 +1,89 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <h5>
+        {{ report?.name}} from {{startDate | date:'mediumDate'}} to {{ endDate  | date:'mediumDate'}} for {{ orgUnitName }}
+        <button (click)="downloadExcel()" mat-raised-button class="pull-right no-print">
+          <img src="assets/img/csv.png" style="height: 26px">
+        </button>
+        <button (click)="print()" mat-raised-button class="pull-right no-print" style="margin-right: 5px">
+          <img src="assets/img/print.png" style="height: 26px">
+        </button>
+      </h5>
+    </div>
+  </div>
+  <div class="row mt-3 no-print">
+    <div class="col-sm-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Visible Rows</mat-label>
+        <mat-select
+          (selectionChange)="changeRows($event)"
+          [(ngModel)]="visibleRows"
+          multiple
+          placeholder="Select Indicators">
+          <app-mat-select-search [(ngModel)]="searchRows"></app-mat-select-search>
+          <mat-option
+            *ngFor="let item of rows | search:'indicatorName':searchRows"
+            [value]="item"
+          >{{ item }}</mat-option>
+        </mat-select>
+        <mat-hint *ngIf="hiddenRows.length > 0">{{hiddenRows.length}} hidden rows</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Visible Columns</mat-label>
+        <mat-select
+          (selectionChange)="changeColumn($event)"
+          [(ngModel)]="visibleColumns"
+          multiple
+          placeholder="Visible Columns">
+          <app-mat-select-search [(ngModel)]="searchColumns"></app-mat-select-search>
+          <mat-option
+            *ngFor="let item of columns | search:'indicatorName':searchColumns"
+            [value]="item"
+          >{{ item }}</mat-option>
+        </mat-select>
+        <mat-hint *ngIf="hiddenColumns.length > 0">{{hiddenColumns.length}} hidden columns</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table #dataTable class="table table-bordered reportTable mt-3">
+        <thead>
+        <tr>
+          <th colspan="2"></th>
+          <th class="text-center" colspan="2" [attr.colspan]="visibleColumns.includes('JUMLA ME') && visibleColumns.includes('JUMLA KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA ME') || visibleColumns.includes('JUMLA KE')">JUMLA</th>
+          <th class="text-center" colspan="2"  [attr.colspan]="visibleColumns.includes('CHINI YA MIAKA 5 ME') && visibleColumns.includes('CHINI YA MIAKA 5 KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MIAKA 5 ME') || visibleColumns.includes('CHINI YA MIAKA 5 KE')">CHINI YA MIAKA 5</th>
+          <th class="text-center" colspan="2"  [attr.colspan]="visibleColumns.includes('JUU YA MIAKA 5 ME') && visibleColumns.includes('JUU YA MIAKA 5 KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUU YA MIAKA 5 ME') || visibleColumns.includes('JUU YA MIAKA 5 KE')">JUU YA MIAKA 5</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th style="width: 10px">SN</th>
+          <th>{{ main_title }}</th>
+          <th class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA ME')">ME</th>
+          <th class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA KE')">KE</th>
+          <th class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MIAKA 5 ME')">ME</th>
+          <th class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MIAKA 5 KE')">KE</th>
+          <th class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUU YA MIAKA 5 ME')">ME</th>
+          <th class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUU YA MIAKA 5 KE')">KE</th>
+        </tr>
+        <ng-container *ngFor="let row of jsonData;">
+          <tr *ngIf="visibleRows.includes('RUFAA ZA MALARIA ZILIZOFANYIKA')">
+            <td>1</td>
+            <td>RUFAA ZA MALARIA ZILIZOFANYIKA</td>
+            <td class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA ME')">{{row.totalMale || '-'}}</td>
+            <td class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA KE')">{{row.totalFemale || '-'}}</td>
+            <td class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MIAKA 5 ME')">{{row.lessThanFiveMale || '-'}}</td>
+            <td class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MIAKA 5 KE')">{{row.lessThanFiveFemale || '-'}}</td>
+            <td class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUU YA MIAKA 5 ME')">{{row.greaterThan5Male || '-'}}</td>
+            <td class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUU YA MIAKA 5 KE')">{{row.greaterThan5Female || '-'}}</td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -15,6 +15,7 @@ export class TableFormComponent implements OnInit {
   @Input() image: string;
   @Input() loading = false;
   @Input() formTitle: string;
+  @Input() showTopBanner: boolean = true;
 
   @Input() viewDetails: boolean = false;
   @Input() hideAdd: boolean = false;

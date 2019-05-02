@@ -1,0 +1,81 @@
+<app-table-form
+  image="pie-chart"
+  title="Indicators"
+  [hideAdd]="false"
+  [viewDetails]="viewDetails"
+  animationSize="largeForm"
+  [smallForm]="true"
+  (addItem)="add()"
+  (close)="closeForm()"
+  [showTopBanner]="false"
+>
+
+  <ng-container ngProjectAs="table">
+
+    <app-main-data-table
+      *ngIf="tableConfigurations.tableColumns"
+      [tableConfigurations]="tableConfigurations"
+      [loading]="loading"
+      [tableList]="items"
+      (rowPreview)="viewMore($event)"
+      (rowUpdate)="onUpdate($event)"
+      (rowDelete)="onDelete($event)"
+    ></app-main-data-table>
+  </ng-container>
+  <ng-container ngProjectAs="form">
+     <div class="container-fluid">
+       <form [formGroup]="submitForm">
+<!--         English Name-->
+         <p class="clearfix">
+           <mat-form-field appearance="outline">
+             <mat-label> English Name</mat-label>
+             <input
+               formControlName="indicatorName"
+               matInput
+               required
+               placeholder="English Name">
+             <mat-error *ngIf="!submitForm.get('indicatorName').valid && submitForm.get('indicatorName').touched">
+               This field is required
+             </mat-error>
+           </mat-form-field>
+         </p>
+
+<!--         Swahili Name-->
+         <p class="clearfix">
+           <mat-form-field appearance="outline">
+             <mat-label> Swahili Name</mat-label>
+             <input
+               formControlName="indicatorNameSw"
+               matInput
+               required
+               placeholder="Swahili Name">
+             <mat-error *ngIf="!submitForm.get('indicatorNameSw').valid && submitForm.get('indicatorNameSw').touched">
+               This field is required
+             </mat-error>
+           </mat-form-field>
+         </p>
+
+<!--         Is Active-->
+         <p class="clearfix">
+           <mat-checkbox formControlName="isActive">
+             Is Active
+           </mat-checkbox>
+         </p>
+
+         <div class="col-sm-12">
+           <app-loader message="Saving Information Please Wait.." *ngIf="saving_data"></app-loader>
+           <app-save-area
+             *ngIf="!loading"
+             @fadeIn
+             [saveDisabled]="submitForm.invalid || saving_data"
+             (save)="save(submitForm.value)"
+             (cancel)="closeForm()"
+             [confirmFirst]="true"
+             [confirmText]="'Confirm Saving Information?'"
+           ></app-save-area>
+         </div>
+       </form>
+     </div>
+
+  </ng-container>
+</app-table-form>

@@ -9,8 +9,8 @@
       <app-summary-card
         image="icons8-send-job-list-80"
         [route]="['report']"
-        [loading]="false"
-        [value]="140"
+        [loading]="location_loading"
+        [value]="total_refferals || 0"
         additional_information="Last Three Month"
         top_title="Clients"
         low_title="Refereed">
@@ -19,8 +19,8 @@
       <app-summary-card
         image="ltf"
         [route]="['report']"
-        [value]="100"
-        [loading]="false"
+        [value]="total_ltfs || 0"
+        [loading]="location_loading"
         additional_information="Last Three Month"
         top_title="Lost to"
         low_title="Followup">
@@ -28,10 +28,10 @@
 
       <app-summary-card
         image="registration"
-        [value]="760"
-        [loading]="false"
+        [value]="total_registration || 0"
+        [loading]="location_loading"
         [route]="['report']"
-        additional_information="Last Month"
+        additional_information="Last Three Month"
         top_title="Clients"
         low_title="Registered">
       </app-summary-card>
@@ -39,8 +39,8 @@
       <app-summary-card
         image="chw"
         [route]="['report']"
-        [value]="410"
-        [loading]="false"
+        [value]="total_chw"
+        [loading]="location_loading"
         additional_information="Community Health Worker"
         top_title="CHW"
         low_title="Available">
@@ -50,23 +50,96 @@
     <div class="grid-container">
 
 
-      <mat-grid-list cols="2" rowHeight="350px">
-        <mat-grid-tile [ngClass]="routeAnimationsElements" *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-grid-list cols="1" rowHeight="470px">
+        <mat-grid-tile [ngClass]="routeAnimationsElements" [colspan]="1" [rowspan]="1">
           <mat-card class="dashboard-card">
             <mat-card-header>
               <mat-card-title>
-                {{card.title}}
-                <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-                  <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu" xPosition="before">
-                  <button mat-menu-item>Expand</button>
-                  <button mat-menu-item>Remove</button>
-                </mat-menu>
+                Total Referrals Issued
               </mat-card-title>
             </mat-card-header>
             <mat-card-content class="dashboard-card-content">
-              <div>Card Content Here</div>
+              <div *ngIf="!location_loading">
+                <app-card-filter [start_date]="startDate" [end_date]="endDate" (reportFilter)="updateCard1($event)"></app-card-filter>
+              </div>
+              <app-placeholder *ngIf="location_loading || card1DataLoading" [numberOfLines]="10"></app-placeholder>
+              <div
+                #reportArea1
+                [ngClass]="{'hidden': !card1Data || location_loading || card1DataLoading}"
+                [innerHtml]="card1Data | safeHtml"
+              ></div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+
+      <mat-grid-list cols="1" rowHeight="470px">
+        <mat-grid-tile [ngClass]="routeAnimationsElements" [colspan]="1" [rowspan]="1">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                Total Registrations
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+              <div *ngIf="!location_loading">
+                <app-card-filter [start_date]="startDate" [end_date]="endDate" (reportFilter)="updateCard2($event)"></app-card-filter>
+              </div>
+              <app-placeholder *ngIf="location_loading || card2DataLoading" [numberOfLines]="10"></app-placeholder>
+              <div
+                #reportArea2
+                [ngClass]="{'hidden': !card2Data || location_loading || card2DataLoading}"
+                [innerHtml]="card2Data | safeHtml"
+              ></div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+
+      <mat-grid-list cols="1" rowHeight="470px">
+        <mat-grid-tile [ngClass]="routeAnimationsElements" [colspan]="1" [rowspan]="1">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                LTF Feedback
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+              <div *ngIf="!location_loading">
+                <app-card-filter [start_date]="startDate" [end_date]="endDate" (reportFilter)="updateCard3($event)"></app-card-filter>
+              </div>
+              <app-placeholder *ngIf="location_loading || card3DataLoading" [numberOfLines]="10"></app-placeholder>
+              <div
+                #reportArea3
+                [ngClass]="{'hidden': !card3Data || location_loading || card3DataLoading}"
+                [innerHtml]="card3Data | safeHtml"
+              ></div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+
+      <mat-grid-list cols="1" rowHeight="470px">
+        <mat-grid-tile [ngClass]="routeAnimationsElements" [colspan]="1" [rowspan]="1">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                Total Failed Referrals
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+              <div *ngIf="!location_loading">
+                <app-card-filter [start_date]="startDate" [end_date]="endDate" (reportFilter)="updateCard4($event)"></app-card-filter>
+              </div>
+              <app-placeholder *ngIf="location_loading || card4DataLoading" [numberOfLines]="10"></app-placeholder>
+              <div
+                #reportArea4
+                [ngClass]="{'hidden': !card4Data || location_loading || card4DataLoading}"
+                [innerHtml]="card4Data | safeHtml"
+              ></div>
             </mat-card-content>
           </mat-card>
         </mat-grid-tile>

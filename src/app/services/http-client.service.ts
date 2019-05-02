@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {MatSnackBar} from '@angular/material';
 declare var window;
 @Injectable({providedIn: 'root'})
 export class HttpClientService {
@@ -7,7 +8,7 @@ export class HttpClientService {
   public OPENSRPAPIURL = '../../../opensrp/';
   public OPENMRSURL = '../../../openmrs/ws/rest/v1/';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public snackBar: MatSnackBar) {
   }
 
   prepareToken(credentials: { username, password }) {
@@ -26,18 +27,17 @@ export class HttpClientService {
   }
 
   getToken() {
-    let webToken = null;
-    webToken = localStorage.getItem('htmr-web-token');
-    // if (typeof(Storage) !== undefined) {
-    //   webToken = window.sessionStorage.getItem('htmr-web-token');
-    // } else {
-    //   // TODO: execute block of codes if there is not local storage support
-    // }
-    return webToken;
+    return localStorage.getItem('htmr-web-token');
   }
 
   deleteToken() {
     localStorage.removeItem('htmr-web-token');
+    localStorage.removeItem('htmr-starting-location');
+    if (typeof(Storage) !== undefined) {
+      window.sessionStorage.removeItem('AuthToken');
+    } else {
+      // TODO: execute block of codes if there is not local storage support
+    }
   }
 
   createDHISAuthorizationHeader() {
@@ -60,10 +60,7 @@ export class HttpClientService {
 
   createOPENSRPAuthorizationHeader() {
 
-    const username = 'admin';
-    const password = 'Admin123';
-
-    const token = btoa(username + ':' + password);
+    const token = this.getToken();
     const headers = new HttpHeaders();
     headers.append('Authorization', 'Basic ' + token);
 
@@ -121,34 +118,46 @@ export class HttpClientService {
   }
 
   postOpenSRP(url, data, options?) {
-    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
-    return this.http.post(this.OPENSRPAPIURL + url, data, { headers});
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
+    return this.http.post(this.OPENSRPAPIURL + url, data, {
+      headers: new HttpHeaders()
+        .set('Authorization', headers)
+    });
   }
 
   postOpenSRP1(url, data, options?) {
-    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
     const postOptions = {
-      headers,
+      headers: new HttpHeaders().set('Authorization', headers),
       responseType: 'text'
     };
-    return this.http.post(this.OPENSRPAPIURL + url, data, { headers, responseType: 'text'});
+    return this.http.post(this.OPENSRPAPIURL + url, data, { headers: new HttpHeaders().set('Authorization', headers), responseType: 'text'});
   }
 
 
   getOpenSRP(url) {
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
     // const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
-    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
-    return this.http.get<any>(this.OPENSRPAPIURL + url, { headers });
+    return this.http.get<any>(this.OPENSRPAPIURL + url, {
+      headers: new HttpHeaders()
+        .set('Authorization', headers)
+    });
   }
 
   deleteOpenSRP(url, id) {
-    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
-    return this.http.delete<any>(this.OPENSRPAPIURL + url + '/' + id, { headers });
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
+    return this.http.delete<any>(this.OPENSRPAPIURL + url + '/' + id, {
+      headers: new HttpHeaders()
+        .set('Authorization', headers)
+    });
   }
 
   updateOpenSRP(url, data, id) {
-    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
-    return this.http.put<any>(this.OPENSRPAPIURL + url + '/' + id, data, {headers});
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
+    return this.http.put<any>(this.OPENSRPAPIURL + url + '/' + id, data, {
+      headers: new HttpHeaders()
+        .set('Authorization', headers)
+    });
   }
 
 
@@ -172,6 +181,22 @@ export class HttpClientService {
       headers: new HttpHeaders()
         .set('Authorization', headers)
     });
+  }
+
+
+  showSuccess(message: string = 'Success') {
+    this.snackBar.open(message, 'Ok', {
+      duration: 2500,
+      panelClass: 'success'
+    });
+  }
+
+  showError(message: string = 'Operation Failed', duration: number = 2500) {
+    this.snackBar.open(message, 'Ok', { duration, panelClass: 'error' });
+  }
+
+  showWarning(message: string = 'Something went wrong', duration: number = 2500) {
+    this.snackBar.open(message, 'Ok', { duration, panelClass: 'warning' });
   }
 
 

@@ -1,0 +1,102 @@
+<div class="container-fluid" style="margin-top: 15px">
+  <!--Loading message-->
+
+  <!--Error message in case something doesnt load-->
+  <div class="row no-print" *ngIf="loading_failed">
+    <div class="col-sm-12 text-center text-danger">
+      Loading Failed
+    </div>
+  </div>
+  <!--data selections-->
+  <div>
+    <!--data entry-->
+    <div class="row">
+      <div class="col-3">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Start Date</mat-label>
+          <input
+            [(ngModel)]="start_date"
+            [matDatepicker]="dw"
+            matInput
+            placeholder="From"
+            [max]="end_date"
+            required/>
+          <mat-datepicker-toggle matSuffix [for]="dw"></mat-datepicker-toggle>
+          <mat-datepicker #dw></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+
+        <mat-form-field appearance="outline">
+          <mat-label>End Date</mat-label>
+          <input
+            [(ngModel)]="end_date"
+            [matDatepicker]="dw1"
+            matInput
+            placeholder="To"
+            [min]="start_date"
+            required/>
+          <mat-datepicker-toggle matSuffix [for]="dw1"></mat-datepicker-toggle>
+          <mat-datepicker #dw1></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-4 pt-1">
+        <app-org-unit-filter
+          (onOrgUnitChange)="changeOrgUnit($event)"
+          [orgunit_tree_config]="orgunit_tree_config">
+        </app-org-unit-filter>
+      </div>
+      <div class="col-2">
+        <button
+          style="margin-top: 5px; height: 46px;"
+          [disabled]="start_date == '' || end_date == '' || orgunit == null"
+          class="btn btn-block btn-outline-primary"
+          (click)="getProviders()"
+        >Get Providers List</button>
+      </div>
+    </div>
+    <div class="row no-print mt-4" *ngIf="loading">
+      <div class="col-sm-12" style="padding: 0px">
+        <app-loader [message]="'Getting a list of providers...'"></app-loader>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-5">
+        <app-multiselect
+          *ngIf="providers.length != 0"
+          [items]="providers"
+          [placeholder]="'Select data items to see in the report'"
+          (onSelected)="setSelectedData($event)"
+        ></app-multiselect>
+      </div>
+      <div class="col-7" *ngIf="selected_providers.length != 0">
+        <button class="btn btn-outline-secondary" (click)="getData()">Get Report</button>
+      </div>
+    </div>
+
+    <div class="row no-print mt-4" *ngIf="data_loading">
+      <div class="col-sm-12" style="padding: 0px">
+        <app-loader [message]="'Getting a Data for providers...'"></app-loader>
+      </div>
+    </div>
+
+    <div class="row mt-5" *ngIf="done_loading">
+      <div class="col">
+        <h4 class="text-center">Service Provided by {{ selected_providers_names }} for {{ orgunitnames }} from {{
+          start_date | date:'mediumDate' }} to {{ end_date | date:'mediumDate' }}</h4>
+        <table class="table table-bordered">
+          <tr>
+            <th>Referral Type</th>
+            <th>Number of Referals</th>
+          </tr>
+          <tr *ngFor="let data of values">
+            <td>{{ data.serviceName }}</td>
+            <td>{{ data.count }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
