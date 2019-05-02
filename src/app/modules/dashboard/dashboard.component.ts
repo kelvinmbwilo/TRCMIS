@@ -21,7 +21,9 @@ export class DashboardComponent implements OnInit {
   location_loading = false;
   locations: any[] = [];
   startDate: any;
+  start_date: any;
   endDate: any;
+  end_date: any;
 
   total_registration = 0;
   total_refferals = 0;
@@ -37,6 +39,11 @@ export class DashboardComponent implements OnInit {
   card2DataLoading = false;
   card3DataLoading = false;
   card4DataLoading = false;
+
+  label1DataLoading = false;
+  label2DataLoading = false;
+  label3DataLoading = false;
+  label4DataLoading = false;
 
 
   @ViewChild('reportArea1') el1: ElementRef;
@@ -59,6 +66,8 @@ export class DashboardComponent implements OnInit {
     this.endDate = new Date(new Date().setDate(new Date().getDate() + 2));
     const start_date = new Date(this.startDate).toISOString().substr(0, 10).replace('-', '/').replace('-', '/');
     const end_date = new Date(this.endDate).toISOString().substr(0, 10).replace('-', '/').replace('-', '/');
+    this.start_date = start_date;
+    this.end_date = end_date;
     const starting_location = localStorage.getItem('htmr-starting-location');
 
     this.getLoacation(starting_location).then(locations => {
@@ -88,39 +97,47 @@ export class DashboardComponent implements OnInit {
   }
 
   async getTotalRefferals(from_date, to_date, facilities) {
+    this.label1DataLoading = true;
     const data = await this.http.postOpenSRP(
       'reports/summary_total_referrals/json',
       {from_date, to_date, facilities}
     ).toPromise();
     if (data) {
       this.total_refferals = data['Total Referrals'];
+      this.label1DataLoading = false;
     }
   }
 
   async getTotalLTFs(from_date, to_date, facilities) {
+    this.label2DataLoading = true;
     const data = await this.http.postOpenSRP(
       'reports/summary_total_LTFS/json',
       {from_date, to_date, facilities}
     ).toPromise();
     if (data) {
       this.total_ltfs = data['Total LTFs'];
+      this.label2DataLoading = false;
     }
   }
 
   async getTotalRegistration(from_date, to_date, facilities) {
+    this.label3DataLoading = true;
     const data = await this.http.postOpenSRP(
       'reports/summary_total_registrations/json',
       {from_date, to_date, facilities}
     ).toPromise();
     if (data) {
       this.total_registration = data['Total Registrations'];
+      this.label3DataLoading = false;
     }
   }
 
   async getCHW(ouID) {
+    this.label4DataLoading = true;
     const data = await this.http.getOpenSRP(`get-team-members-by-facility-hierarchy/${ouID}`).toPromise();
     if (data) {
       this.total_chw = data;
+      this.label4DataLoading = false;
     }
   }
 

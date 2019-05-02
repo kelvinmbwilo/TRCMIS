@@ -20,9 +20,9 @@
       <app-summary-card
         image="icons8-send-job-list-80"
         [route]="['report']"
-        [loading]="location_loading"
+        [loading]="location_loading || label1DataLoading"
         [value]="total_refferals || 0"
-        additional_information="Last Three Month"
+        [additional_information]="start_date + ' to ' + end_date + ' ' + orgunitName"
         top_title="Clients"
         low_title="Refereed">
       </app-summary-card>
@@ -31,8 +31,8 @@
         image="ltf"
         [route]="['report']"
         [value]="total_ltfs || 0"
-        [loading]="location_loading"
-        additional_information="Last Three Month"
+        [loading]="location_loading || label2DataLoading"
+        [additional_information]="start_date + ' to ' + end_date + ' ' + orgunitName"
         top_title="Lost to"
         low_title="Followup">
       </app-summary-card>
@@ -40,9 +40,9 @@
       <app-summary-card
         image="registration"
         [value]="total_registration || 0"
-        [loading]="location_loading"
+        [loading]="location_loading || label3DataLoading"
         [route]="['report']"
-        additional_information="Last Three Month"
+        [additional_information]="start_date + ' to ' + end_date + ' ' + orgunitName"
         top_title="Clients"
         low_title="Registered">
       </app-summary-card>
@@ -51,8 +51,8 @@
         image="chw"
         [route]="['report']"
         [value]="total_chw"
-        [loading]="location_loading"
-        additional_information="Community Health Worker"
+        [loading]="location_loading || label4DataLoading"
+        [additional_information]="orgunitName"
         top_title="CHW"
         low_title="Available">
       </app-summary-card>
