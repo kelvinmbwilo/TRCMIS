@@ -20,13 +20,16 @@ export class OrgUnitService {
 
   getLevel4OrgunitsNames(orgunits: any[], uuid) {
     return orgunits
-      .filter((ou: any) => ou.parents.indexOf(uuid) !== -1)
-      .map(ou => {
-        return {
-          facility_name: ou.name,
-          facility_id: ou.id
-        };
-      });
+      .filter((ou: any) => ou.id === uuid)
+      .map(ou => ou.name)
+      .join(', ');
+  }
+
+  getLevel4OrgunitsId(orgunits: any[], uuid) {
+    return orgunits
+      .filter((ou: any) => ou.id === uuid)
+      .map(ou => ou.id)
+      .join('');
   }
 
 

@@ -117,6 +117,10 @@ export class HttpClientService {
     return this.http.put(this.DHISAPIURL + url, data, {headers});
   }
 
+  login1(loginCredentials) {
+    return this.getOpenSRP('security/authenticate');
+  }
+
   postOpenSRP(url, data, options?) {
     const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
     return this.http.post(this.OPENSRPAPIURL + url, data, {

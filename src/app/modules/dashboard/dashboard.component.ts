@@ -1,11 +1,14 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ROUTE_ANIMATIONS_ELEMENTS} from '../../shared/animations/router-animation';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {map} from 'rxjs/operators';
+import {BreakpointObserver} from '@angular/cdk/layout';
 import {HttpClientService} from '../../services/http-client.service';
 import {LocationService} from '../../services/location.service';
 import {OrgUnitService} from '../../services/org-unit.service';
 import * as _ from 'lodash';
+import * as Highcharts from 'highcharts';
+import {SettingsService} from '../../services/settings.service';
+import exporting from 'highcharts/modules/exporting';
+exporting(Highcharts);
 
 @Component({
   selector: 'app-dashboard',
@@ -40,12 +43,16 @@ export class DashboardComponent implements OnInit {
   @ViewChild('reportArea2') el2: ElementRef;
   @ViewChild('reportArea3') el3: ElementRef;
   @ViewChild('reportArea4') el4: ElementRef;
+
+  orgunitName: string;
   constructor(
     private breakpointObserver: BreakpointObserver,
     private http: HttpClientService,
     private locationService: LocationService,
-    private orgunitService: OrgUnitService
-    ) {}
+    private orgunitService: OrgUnitService,
+    private settingsService: SettingsService
+  ) {
+  }
 
   ngOnInit() {
     this.startDate = new Date(new Date().setDate(new Date().getDate() - 90));
@@ -56,6 +63,7 @@ export class DashboardComponent implements OnInit {
 
     this.getLoacation(starting_location).then(locations => {
       const facilities = this.orgunitService.getLevel4OrgunitsIds(locations, starting_location);
+      this.orgunitName = this.orgunitService.getLevel4OrgunitsNames(locations, starting_location);
       this.getTotalRegistration(start_date, end_date, facilities);
       this.getTotalRefferals(start_date, end_date, facilities);
       this.getTotalLTFs(start_date, end_date, facilities);
@@ -65,6 +73,18 @@ export class DashboardComponent implements OnInit {
       this.updateCard3({from_date: start_date, to_date: end_date, facilities});
       this.updateCard4({from_date: start_date, to_date: end_date, facilities});
     });
+  }
+
+  updateCards(filter: { from_date, to_date, facilities, ouName?, ouId? }) {
+    this.orgunitName = filter.ouName;
+    this.updateCard1Chart(filter);
+    this.updateCard2Chart(filter);
+    this.updateCard3Chart(filter);
+    this.updateCard4Chart(filter);
+    this.getTotalRegistration(filter.from_date, filter.to_date, filter.facilities);
+    this.getTotalRefferals(filter.from_date, filter.to_date, filter.facilities);
+    this.getTotalLTFs(filter.from_date, filter.to_date, filter.facilities);
+    this.getCHW(filter.ouId);
   }
 
   async getTotalRefferals(from_date, to_date, facilities) {
@@ -91,11 +111,12 @@ export class DashboardComponent implements OnInit {
     const data = await this.http.postOpenSRP(
       'reports/summary_total_registrations/json',
       {from_date, to_date, facilities}
-      ).toPromise();
+    ).toPromise();
     if (data) {
       this.total_registration = data['Total Registrations'];
     }
   }
+
   async getCHW(ouID) {
     const data = await this.http.getOpenSRP(`get-team-members-by-facility-hierarchy/${ouID}`).toPromise();
     if (data) {
@@ -103,49 +124,152 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  updateCard1(filter: {from_date, to_date, facilities}) {
+  updateCard1(filter: { from_date, to_date, facilities }) {
+    this.updateCard1Chart(filter);
     this.card1DataLoading = true;
-    const reportUrl = 'reports/dashboard_total_referrals_issued/html';
-    this.http.postOpenSRP1(reportUrl,
+    // const reportUrl = 'reports/dashboard_total_referrals_issued/html';
+    // this.http.postOpenSRP1(reportUrl,
+    //   filter)
+    //   .subscribe((data: any) => {
+    //     this.card1Data = data;
+    //     this.card1DataLoading = false;
+    //   }, error1 => this.card1DataLoading = false);
+  }
+
+  updateCard1Chart(filter: { from_date, to_date, facilities }) {
+    this.card1DataLoading = true;
+    const reportUrl = 'reports/dashboard_total_referrals_issued/json';
+    this.http.postOpenSRP(reportUrl,
       filter)
-      .subscribe((data: any) => {
-        this.card1Data = data;
+      .subscribe((data: any[]) => {
+        if (data) {
+          const series = [{
+              name: 'Referrals',
+              data: data.map(item => item.value)
+            }];
+          const categories = data.map(item => item.itemName);
+          const chartConfig: any = this.settingsService.drawChart(
+            categories,
+            series,
+            'Referrals',
+            'Total Referrals Issued' + ` from ${filter.from_date} to ${filter.to_date} for ${this.orgunitName}`
+          );
+          Highcharts.chart('card1Chart', chartConfig);
+        }
         this.card1DataLoading = false;
       }, error1 => this.card1DataLoading = false);
   }
 
-  updateCard2(filter: {from_date, to_date, facilities}) {
+  updateCard2(filter: { from_date, to_date, facilities }) {
     this.card2DataLoading = true;
-    const reportUrl = 'reports/dashboard_total_registrations/html';
-    this.http.postOpenSRP1(reportUrl,
+    this.updateCard2Chart(filter);
+    // const reportUrl = 'reports/dashboard_total_registrations/html';
+    // this.http.postOpenSRP1(reportUrl,
+    //   filter)
+    //   .subscribe((data: any) => {
+    //     this.card2Data = data;
+    //     this.card2DataLoading = false;
+    //   }, error1 => this.card2DataLoading = false);
+  }
+
+  updateCard2Chart(filter: { from_date, to_date, facilities }) {
+    this.card2DataLoading = true;
+    const reportUrl = 'reports/dashboard_total_registrations/json';
+    this.http.postOpenSRP(reportUrl,
       filter)
-      .subscribe((data: any) => {
-        this.card2Data = data;
+      .subscribe((data: any[]) => {
+        if (data) {
+          const series = data.map(item => ({
+            name: item.itemName,
+            y: item.value
+          }));
+          const chartConfig: any = this.settingsService.drawPieChart(
+            series,
+            'Total Registrations' + ` from ${filter.from_date} to ${filter.to_date} for ${this.orgunitName}`,
+            'Registrations'
+          );
+          Highcharts.chart('card2Chart', chartConfig);
+        }
         this.card2DataLoading = false;
       }, error1 => this.card2DataLoading = false);
   }
 
-  updateCard3(filter: {from_date, to_date, facilities}) {
+  updateCard3(filter: { from_date, to_date, facilities }) {
     this.card3DataLoading = true;
-    const reportUrl = 'reports/dashboard_ltf_feedbacks/html';
-    this.http.postOpenSRP1(reportUrl,
+    this.updateCard3Chart(filter);
+    // const reportUrl = 'reports/dashboard_ltf_feedbacks/html';
+    // this.http.postOpenSRP1(reportUrl,
+    //   filter)
+    //   .subscribe((data: any) => {
+    //     this.card3Data = data;
+    //     this.card3DataLoading = false;
+    //   }, error1 => this.card3DataLoading = false);
+  }
+
+  updateCard3Chart(filter: { from_date, to_date, facilities }) {
+    this.card3DataLoading = true;
+    const reportUrl = 'reports/dashboard_ltf_feedbacks/json';
+    this.http.postOpenSRP(reportUrl,
       filter)
-      .subscribe((data: any) => {
-        this.card3Data = data;
+      .subscribe((data: any[]) => {
+        if (data) {
+          const series = [{
+            name: 'LTFs',
+            data: data.map(item => item.value)
+          }];
+          const categories = data.map(item => item.itemName);
+          const chartConfig: any = this.settingsService.drawChart(
+            categories,
+            series,
+            'LTFs',
+            'LTF Feedback' + ` from ${filter.from_date} to ${filter.to_date} for ${this.orgunitName}`,
+            '',
+            'line'
+          );
+          Highcharts.chart('card3Chart', chartConfig);
+        }
         this.card3DataLoading = false;
       }, error1 => this.card3DataLoading = false);
   }
 
-  updateCard4(filter: {from_date, to_date, facilities}) {
+  updateCard4(filter: { from_date, to_date, facilities }) {
     this.card4DataLoading = true;
-    const reportUrl = 'reports/dashboard_total_failed_referrals/html';
-    this.http.postOpenSRP1(reportUrl,
+    this.updateCard4Chart(filter);
+    // const reportUrl = 'reports/dashboard_total_failed_referrals/html';
+    // this.http.postOpenSRP1(reportUrl,
+    //   filter)
+    //   .subscribe((data: any) => {
+    //     this.card4Data = data;
+    //     this.card4DataLoading = false;
+    //   }, error1 => this.card4DataLoading = false);
+  }
+
+  updateCard4Chart(filter: { from_date, to_date, facilities }) {
+    this.card4DataLoading = true;
+    const reportUrl = 'reports/dashboard_total_failed_referrals/json';
+    this.http.postOpenSRP(reportUrl,
       filter)
-      .subscribe((data: any) => {
-        this.card4Data = data;
+      .subscribe((data: any[]) => {
+        if (data) {
+          const series = [{
+            name: 'Referrals',
+            data: data.map(item => item.value)
+          }];
+          const categories = data.map(item => item.itemName);
+          const chartConfig: any = this.settingsService.drawChart(
+            categories,
+            series,
+            'Referrals',
+            'Total Failed Referrals' + ` from ${filter.from_date} to ${filter.to_date} for ${this.orgunitName}`,
+            '',
+            'line'
+          );
+          Highcharts.chart('card4Chart', chartConfig);
+        }
         this.card4DataLoading = false;
       }, error1 => this.card4DataLoading = false);
   }
+
 
   // this method was coppied form the orguni component and is to be moved to service letter
   async getLoacation(starting_location) {
