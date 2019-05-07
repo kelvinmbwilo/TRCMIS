@@ -1,0 +1,87 @@
+<div class="container-fluid">
+
+</div>
+
+
+<form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+  <!-- Location Name-->
+  <p class="clearfix">
+    <mat-form-field appearance="outline">
+      <mat-label> Location Name</mat-label>
+      <input
+        formControlName="name"
+        matInput
+        required
+        placeholder="Location Name">
+      <mat-error *ngIf="name.invalid && name.touched">
+        This field is required
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <!-- Location Name-->
+  <p class="clearfix">
+    <mat-form-field appearance="outline">
+      <mat-label> Description</mat-label>
+      <textarea
+        formControlName="description"
+        matInput
+        placeholder="Description"
+      ></textarea>
+      <mat-error *ngIf="name.invalid && name.touched">
+        This field is required
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <!-- Parent-->
+  <p class="clearfix">
+    <mat-form-field appearance="outline">
+      <mat-label> Parent Location</mat-label>
+      <mat-select formControlName="parentLocation" placeholder="Parent Location">
+        <app-mat-select-search formControlName="search"></app-mat-select-search>
+        <mat-option *ngFor="let item of locations | search:'display':locationForm.get('search').value" [value]="item.uuid">
+          {{ item.display }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </p>
+
+  <!-- HFR Code-->
+  <p class="clearfix">
+    <mat-form-field appearance="outline">
+      <mat-label> HFR Code</mat-label>
+      <input
+        formControlName="hfrCode"
+        matInput
+        placeholder="HFR Code">
+    </mat-form-field>
+  </p>
+  <div class="form-group">
+    <label>Tags</label>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-checkbox  formControlName="tagOne" [value]="tags.tagOne">
+          CHW Locations
+        </mat-checkbox>
+      </div>
+      <div class="col-md-6">
+        <mat-checkbox  formControlName="tagTwo" [value]="tags.tagTwo">
+          Transfer Location
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <app-loader message="Saving Information Please Wait.." *ngIf="loading"></app-loader>
+    <app-save-area
+      *ngIf="!loading"
+      @fadeIn
+      [saveDisabled]="locationForm.invalid || loading"
+      (save)="onSubmit()"
+      (cancel)="closeForm()"
+      [confirmFirst]="true"
+      [confirmText]="'Confirm Saving Information?'"
+    ></app-save-area>
+  </div>
+</form>

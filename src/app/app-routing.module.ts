@@ -14,6 +14,8 @@ import {IndicatorsComponent} from './modules/settings/indicators/indicators.comp
 import {RefferealFeedbackComponent} from './modules/settings/reffereal-feedback/reffereal-feedback.component';
 import {RefferealTypeComponent} from './modules/settings/reffereal-type/reffereal-type.component';
 import {RegistrationReasonComponent} from './modules/settings/registration-reason/registration-reason.component';
+import {LocationsComponent} from './modules/locations/locations.component';
+import {UsersComponent} from './modules/users/users.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,16 @@ const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         data: {state: 'dashboard'}
+      },
+      {
+        path: 'location',
+        component: LocationsComponent,
+        data: {state: 'location'}
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        data: {state: 'user_management'}
       },
       {
         path: 'reports',

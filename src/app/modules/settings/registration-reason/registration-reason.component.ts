@@ -14,7 +14,7 @@ export class RegistrationReasonComponent implements OnInit {
   viewDetails: boolean = false;
   loading: boolean = false;
   saving_data: boolean = false;
-  items: Indicator[] = [];
+  items: RegistrationReason[] = [];
   itemId: number;
   tableConfigurations = {
     tableColumns: [
@@ -89,30 +89,51 @@ export class RegistrationReasonComponent implements OnInit {
 
   async save(formValue) {
     this.saving_data = true;
-    const payload: any = [{
+    let payload: any = [{
       descEn: formValue.descEn,
       descSw: formValue.descSw,
       isActive: formValue.isActive,
       applicableToMen: formValue.applicableToMen,
       applicableToWomen: formValue.applicableToWomen
     }];
+    let url = 'create-registration-reasons';
     if (this.itemId) {
-      payload[0].registrationId = this.itemId;
+      url = 'update-registration-reason';
+      payload = {
+        registrationId: this.itemId,
+        descEn: formValue.descEn,
+        descSw: formValue.descSw,
+        isActive: formValue.isActive,
+        applicableToMen: formValue.applicableToMen,
+        applicableToWomen: formValue.applicableToWomen
+      };
     }
     try {
-      const saved = await this.httpClient.postOpenSRP('create-registration-reasons', payload).toPromise();
+      const saved = await this.httpClient.postOpenSRP(url, payload).toPromise();
       this.loading = false;
       this.httpClient.showSuccess('Registration Reason Created Successful');
       this.getItems();
+      this.closeForm();
+      this.submitForm.reset();
     } catch (e) {
       console.log(e);
+      this.saving_data = false;
       this.httpClient.showError('Something went wrong, Try Again', 3000);
     }
   }
 
-  onDelete(item) {
+  async onDelete(item) {
     this.tableConfigurations.deleting = {};
     this.tableConfigurations.deleting[item.id] = true;
+    try {
+      const saved = await this.httpClient.getOpenSRP(`delete-registration-reasons/${item.id}`).toPromise();
+      this.tableConfigurations.deleting[item.id] = true;
+      this.httpClient.showSuccess('Registration Reason Deleted Successful');
+      this.items = this.items.filter(ind => ind.id !== item.id);
+    } catch (e) {
+      console.log(e);
+      this.httpClient.showError('Something went wrong, Try Again', 3000);
+    }
   }
 
   closeForm() {

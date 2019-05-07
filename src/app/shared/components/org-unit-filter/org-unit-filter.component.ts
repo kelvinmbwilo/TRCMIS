@@ -53,6 +53,7 @@ export class OrgUnitFilterComponent implements OnInit {
 
   organisationunits: any[] = [];
   selected_orgunits: any[] = [];
+  @Input() current_orgunits: string[] = [];
 
   // this variable controls the visibility of of the tree
   showOrgTree = true;
@@ -126,6 +127,7 @@ export class OrgUnitFilterComponent implements OnInit {
     if (this.orgunitService.nodes === null) {
       this.locationService.loadTreeLocations().subscribe(
         (locations => {
+          console.log({locations});
           // get top level locations
           const top_locations = locations;
           // filter down to remain with only visit facilities
@@ -199,11 +201,16 @@ export class OrgUnitFilterComponent implements OnInit {
           this.orgunitService.nodes = [visit_location];
           this.nodes = [visit_location];
           this.orgunit_tree_config.loading = false;
+          this.orgunitService.visit_locations = this.visit_locations;
+          for (const active_orgunit of this.current_orgunits) {
+            this.activateNode(active_orgunit, this.orgtree, true);
+          }
         })
       );
     } else {
       this.organisationunits = this.orgunitService.nodes;
       this.orgunit_tree_config.loading = false;
+      this.visit_locations = this.orgunitService.visit_locations;
     }
     // if (this.orgunitService.nodes === null) {
     //   this.orgunitService.getOrgunitLevelsInformation()

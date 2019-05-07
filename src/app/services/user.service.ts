@@ -59,8 +59,8 @@ export class UserService {
       accessibility: false
     },
     {
-      name: 'User Management',
-      links: ['/home', 'user', 'users'],
+      name: 'Team Management',
+      links: ['', 'users'],
       icon: 'fa fa-user',
       roles: ['System Developer'],
       accessibility: false
@@ -74,7 +74,7 @@ export class UserService {
     // },
     {
       name: 'Location Management',
-      links: ['/home', 'location'],
+      links: ['', 'location'],
       icon: 'fa fa-map-signs',
       roles: ['System Developer'],
       accessibility: false
@@ -187,7 +187,7 @@ export class UserService {
   listRoles() {
     return Observable.create(observer => {
 
-      this.http.getOpenMRS(`role?v=full`)
+      this.http.getOpenMRS(`role?v=default`)
         .subscribe((personResponse: any) => {
             observer.next(personResponse);
             observer.complete();
@@ -229,7 +229,7 @@ export class UserService {
     });
   }
 
-  deletePerson(person) {
+  deletePerson(person): Observable<any> {
     return Observable.create(observer => {
 
       this.http.deleteOpenMRS(`person/` + person.uuid)

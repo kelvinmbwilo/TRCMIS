@@ -1,0 +1,50 @@
+<app-table-form
+  image="pie-chart"
+  title="Indicators"
+  [hideAdd]="false"
+  [viewDetails]="viewDetails"
+  [animationSize]="animationSize"
+  [smallForm]="smallForm"
+  (addItem)="add()"
+  (close)="closeForm()"
+  [formTitle]="formTitle"
+  [showTopBanner]="false"
+>
+
+  <ng-container ngProjectAs="table">
+
+    <app-main-data-table
+      *ngIf="tableConfigurations.tableColumns"
+      [tableConfigurations]="tableConfigurations"
+      [loading]="loading"
+      [loadingMessage]="loadingMessage"
+      [tableList]="teams"
+      (rowPreview)="viewMore($event)"
+      (rowUpdate)="onUpdate($event)"
+      (rowDelete)="onDelete($event)"
+      (rowCustomPrimary)="addMember($event)"
+    ></app-main-data-table>
+  </ng-container>
+  <ng-container ngProjectAs="form">
+    <app-add-team
+      (close)="closeForm()"
+      [team]="currentTeam"
+      *ngIf="view_data == 'addData'"
+    ></app-add-team>
+    <app-team-info
+      [teamRoles]="teamRoles"
+      [team]="currentTeam"
+      (saved)="prepareTeamWithMembers()"
+      (close)="closeForm()"
+      *ngIf="view_data == 'moreDetails'"
+    ></app-team-info>
+    <app-add-member
+      [roles]="roles"
+      (close)="closeForm()"
+      (saved)="prepareTeamWithMembers()"
+      [teamRoles]="teamRoles"
+      [team]="currentTeam"
+      *ngIf="view_data == 'addMember'"
+    ></app-add-member>
+  </ng-container>
+</app-table-form>

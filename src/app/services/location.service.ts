@@ -17,7 +17,7 @@ export class LocationService {
 
     return Observable.create(observer => {
 
-      this.http.getOpenMRS(`location?v=full&limit=`)
+      this.http.getOpenMRS(`location?v=full&limit=8000`)
         .subscribe((locationResponse: any) => {
 
             this.locations = locationResponse.results.map((location) => {
@@ -46,14 +46,14 @@ export class LocationService {
   }
 
 // get all data element group
-  loadTreeLocations(): Observable<Array<Location>> {
+  loadTreeLocations(freshCopy: boolean = false): Observable<Array<Location>> {
 
     return Observable.create(observer => {
-      if (this.locations.length > 0) {
+      if (this.locations.length > 0 && !freshCopy) {
         observer.next(this.locations);
         observer.complete();
       } else {
-        this.http.getOpenMRS(`location?v=default&limit=1000`)
+        this.http.getOpenMRS(`location?v=default&limit=8000`)
           .subscribe((locationResponse: any) => {
 
               this.locations = locationResponse.results
@@ -88,7 +88,7 @@ export class LocationService {
 
       this.http.postOpenSRP('save-health-facilities', data)
         .subscribe((locationResponse: any) => {
-
+            console.log({locationResponse});
             observer.next(this.locations);
             observer.complete();
           },
@@ -104,6 +104,24 @@ export class LocationService {
     return Observable.create(observer => {
 
       this.http.postOpenMRS(`location`, dataObject)
+        .subscribe((locationResponse: any) => {
+            this.loadingMessage = 'Created successfully';
+            observer.next(locationResponse);
+            observer.complete();
+          },
+          error => {
+            this.loadingMessage = 'Creation failed';
+            observer.error('some error occur');
+          });
+
+    });
+
+  }
+
+  updateLocation(dataObject, uuid): Observable<any> {
+    return Observable.create(observer => {
+
+      this.http.postOpenMRS(`location/${uuid}`, dataObject)
         .subscribe((locationResponse: any) => {
             this.loadingMessage = 'Created successfully';
             observer.next(locationResponse);

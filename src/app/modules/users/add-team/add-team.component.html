@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <p class="clearfix">
+    <!--  Identifier-->
+  <p class="clearfix">
+    <mat-form-field appearance="outline">
+      <mat-label> Team Identifier</mat-label>
+      <input
+        [(ngModel)]="teamIdentifier"
+        matInput
+        required
+        placeholder="Team Identifier">
+    </mat-form-field>
+  </p>
+  <!--         Swahili Name-->
+  <p class="clearfix">
+    <mat-form-field appearance="outline">
+      <mat-label> Team Name</mat-label>
+      <input
+        [(ngModel)]="teamName"
+        matInput
+        required
+        placeholder="Team Name">
+    </mat-form-field>
+  </p>
+  <p class="clearfix">
+    <app-org-unit-filter
+      (onOrgUnitChange)="changeOrgUnit($event)"
+      [current_orgunits]="current_orgunits"
+      [orgunit_tree_config]="orgunit_tree_config">
+    </app-org-unit-filter>
+  </p>
+
+  <div class="col-sm-12">
+    <app-loader message="Saving Team Information Please Wait.." *ngIf="loading"></app-loader>
+    <app-save-area
+      *ngIf="!loading"
+      @fadeIn
+      [saveDisabled]="!teamName || !teamIdentifier || !orgunit"
+      (save)="save()"
+      (cancel)="closeForm()"
+      [confirmFirst]="true"
+      [confirmText]="'Confirm Saving Information?'"
+    ></app-save-area>
+  </div>
+</div>

@@ -53,7 +53,7 @@ export class FacilityRefferalReportComponent implements OnInit {
     this.data_loading = true;
     this.loading_failed = false;
     this.done_loading = false;
-    const facilities = this.orgUnitService.getLevel4OrgunitsNames(this.orgunit.visit_locations, this.orgunit.value);
+    const facilities = this.orgUnitService.getLevel4OrgunitsIds(this.orgunit.visit_locations, this.orgunit.value);
     const payload = {from_date, to_date, facilities};
     this.httpClient.postOpenSRP('/report/get-inter-facility-referrals-summary', payload)
       .subscribe(( data: any[]) => {
@@ -78,8 +78,10 @@ export class FacilityRefferalReportComponent implements OnInit {
   getData() {
     this.data_loading = true;
     const chw_uuid = this.selected_providers.map(provider => provider.id);
+    const start_date = new Date(this.start_date).toISOString().substr(0, 10);
+    const end_date = new Date(this.end_date).toISOString().substr(0, 10);
     this.httpClient.postOpenSRP('report/get-chw-referrals-summary',
-      {from_date: this.start_date, to_date: this.end_date, chw_uuid})
+      {from_date: start_date, to_date: end_date, chw_uuid})
       .subscribe((data: any) => {
         this.done_loading = true;
         this.data_loading = false;

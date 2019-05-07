@@ -1,0 +1,154 @@
+<!--<form [formGroup]="teamMemberForm">-->
+
+<!--  <div class="row">-->
+<!--    <div class="col-md-6">-->
+<!--      &lt;!&ndash;<div *ngIf="showNewPersonForm" class="bordered-form">&ndash;&gt;-->
+<!--      <div class="bordered-form">-->
+<!--        <div class="form-group">-->
+<!--          <label>Given Name <span class="important-field">*</span></label>-->
+<!--          <input type="text" class="form-control form-control-sm" id="first_name" formControlName="firstName"-->
+<!--                 placeholder="Given Name">-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--          <label for="familyName">Family Name <span class="important-field">*</span></label>-->
+<!--          <input type="text" class="form-control form-control-sm" id="familyName" formControlName="familyName"-->
+<!--                 placeholder="Family Name ">-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--          <label>Gender</label>-->
+<!--          <div class="row">-->
+<!--            <div class="col-md-6">-->
+<!--              <div class="form-check">-->
+<!--                <label class="form-check-label">-->
+<!--                  <input class="form-check-input" formControlName="gender" type="radio"-->
+<!--                         value="M">-->
+<!--                  Male-->
+<!--                </label>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="col-md-6">-->
+<!--              <div class="form-check">-->
+<!--                <label class="form-check-label">-->
+<!--                  <input class="form-check-input" formControlName="gender" type="radio"-->
+<!--                         value="F">-->
+<!--                  Female-->
+<!--                </label>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--          <label>Age</label>-->
+<!--          <input type="text" class="form-control form-control-sm" id="age" formControlName="age"-->
+<!--                 placeholder="Age">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="col-md-6">-->
+<!--      <div class="bordered-form">-->
+<!--        &lt;!&ndash; User Name&ndash;&gt;-->
+<!--        <p class="clearfix">-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label> User Name</mat-label>-->
+<!--            <input-->
+<!--              formControlName="username"-->
+<!--              matInput-->
+<!--              required-->
+<!--              placeholder="User Name">-->
+<!--            <mat-error *ngIf="teamMemberForm.get('username').invalid && teamMemberForm.get('username').touched">-->
+<!--              This field is required-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+<!--        </p>-->
+
+<!--        &lt;!&ndash; Password&ndash;&gt;-->
+<!--        <p class="clearfix">-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label> Password</mat-label>-->
+<!--            <input-->
+<!--              formControlName="password"-->
+<!--              matInput-->
+<!--              type="password"-->
+<!--              required>-->
+<!--            <mat-error *ngIf="teamMemberForm.get('password').invalid && teamMemberForm.get('password').touched">-->
+<!--              This field is required-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+<!--        </p>-->
+
+<!--        &lt;!&ndash; Re Password&ndash;&gt;-->
+<!--        <p class="clearfix">-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label> Confirm Password</mat-label>-->
+<!--            <input-->
+<!--              formControlName="confirmPassword"-->
+<!--              matInput-->
+<!--              type="password"-->
+<!--              required>-->
+<!--            <mat-error-->
+<!--              *ngIf="teamMemberForm.get('confirmPassword').invalid && teamMemberForm.get('confirmPassword').touched">-->
+<!--              This field is required-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+<!--        </p>-->
+
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <br/>-->
+<!--  <div class="row mb-3">-->
+<!--    <div class="col-md-12">-->
+<!--      <div class="bordered-form">-->
+<!--        &lt;!&ndash;  User Roles&ndash;&gt;-->
+<!--        <p class="clearfix" *ngIf="roles">-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label> Role</mat-label>-->
+<!--            <mat-select multiple formControlName="roles" placeholder="Role">-->
+<!--              <mat-option *ngFor="let item of roles" [value]="item.uuid">-->
+<!--                {{ item.name }}-->
+<!--              </mat-option>-->
+<!--            </mat-select>-->
+<!--            <mat-error *ngIf="!teamMemberForm.get('roles').valid && teamMemberForm.get('roles').touched">-->
+<!--              This field is required-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+<!--        </p>-->
+
+<!--        &lt;!&ndash;  Team Roles&ndash;&gt;-->
+<!--        <p class="clearfix" *ngIf="teamRoles">-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label> Team Roles</mat-label>-->
+<!--            <mat-select formControlName="teamRole" placeholder="Team Roles">-->
+<!--              <mat-option *ngFor="let item of teamRoles" [value]="item.uuid">-->
+<!--                {{ item.name }}-->
+<!--              </mat-option>-->
+<!--            </mat-select>-->
+<!--            <mat-error *ngIf="!teamMemberForm.get('teamRole').valid && teamMemberForm.get('teamRole').touched">-->
+<!--              This field is required-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+<!--        </p>-->
+
+<!--        <p class="clearfix">-->
+<!--          <app-chw-locations-->
+<!--            (onOrgUnitChange)="changeOrgUnit($event)"-->
+<!--            [orgunit_tree_config]="orgunit_tree_config"-->
+<!--          ></app-chw-locations>-->
+<!--        </p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="col-sm-12">-->
+<!--    <app-loader message="Saving Information Please Wait.." *ngIf="loading"></app-loader>-->
+<!--    <app-save-area-->
+<!--      *ngIf="!loading"-->
+<!--      @fadeIn-->
+<!--      [saveDisabled]="teamMemberForm.invalid || loading"-->
+<!--      (save)="save()"-->
+<!--      (cancel)="closeForm()"-->
+<!--      [confirmFirst]="true"-->
+<!--      [confirmText]="'Confirm Saving Information?'"-->
+<!--    ></app-save-area>-->
+<!--  </div>-->
+<!--</form>-->

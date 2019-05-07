@@ -1,4 +1,5 @@
 export interface RegistrationReason {
+  id?: string;
   registrationId: number;
   descEn: string;
   descSw: string;

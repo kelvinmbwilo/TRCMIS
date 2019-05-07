@@ -21,6 +21,7 @@ import {ShowButtonPipe} from './components/main-data-table/show-button.pipe';
 import {FilterByNamePipe} from './pipes/filter-by-name.pipe';
 import {SafeHtmlPipe} from './pipes/safe-html.pipe';
 import { TableStyleDirective } from './directives/table-style.directive';
+import { ChwLocationsComponent } from './components/chw-locations/chw-locations.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { TableStyleDirective } from './directives/table-style.directive';
     ShowButtonPipe,
     FilterByNamePipe,
     SafeHtmlPipe,
-    TableStyleDirective
+    TableStyleDirective,
+    ChwLocationsComponent
   ],
   exports: [
     SearchPipe,
@@ -69,7 +71,8 @@ import { TableStyleDirective } from './directives/table-style.directive';
     MatSelectSearchComponent,
     ShowButtonPipe,
     FilterByNamePipe,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    ChwLocationsComponent
   ]
 })
 export class SharedModule {}

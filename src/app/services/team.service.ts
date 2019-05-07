@@ -9,13 +9,13 @@ export class TeamService {
   }
 
 
-  listTeams() {
+  listTeams(): Observable<any> {
     return Observable.create(observer => {
 
-      this.http.getOpenMRS(`team/team?v=full`)
+      this.http.getOpenMRS(`team/team?v=default&limit=1000`)
         .subscribe((teamResponse: any) => {
             this.loadingMessage = 'loaded successfully';
-            observer.next(teamResponse);
+            observer.next(teamResponse.results);
             observer.complete();
           },
           error => {
@@ -73,13 +73,28 @@ export class TeamService {
 
 
 
-  listTeamMembers() {
+  listTeamMembers(): Observable<any> {
     return Observable.create(observer => {
 
-      this.http.getOpenMRS(`team/teammember?v=full`)
+      this.http.getOpenMRS(`team/teammember?v=default&limit=1000`)
         .subscribe((teamResponse: any) => {
             this.loadingMessage = 'loaded successfully';
-            observer.next(teamResponse);
+            observer.next(teamResponse.results);
+            observer.complete();
+          },
+          error => {
+            observer.error('some error occur');
+          });
+    });
+  }
+
+  listTeamRoles(): Observable<any> {
+    return Observable.create(observer => {
+
+      this.http.getOpenMRS(`team/teamrole?v=default`)
+        .subscribe((teamResponse: any) => {
+            this.loadingMessage = 'loaded successfully';
+            observer.next(teamResponse.results);
             observer.complete();
           },
           error => {
@@ -120,7 +135,7 @@ export class TeamService {
     });
   }
 
-  deleteTeamMember(teamMember) {
+  deleteTeamMember(teamMember): Observable<any> {
     return Observable.create(observer => {
 
       this.http.deleteOpenMRS(`/team/teammember/` + teamMember.uuid)

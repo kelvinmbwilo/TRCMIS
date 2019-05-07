@@ -30,7 +30,7 @@ export class RefferealFeedbackComponent implements OnInit {
     showSearch: true,
     showBorder: true,
     allowPagination: true,
-    actionIcons: {edit: true, delete: true, more: false, print: false},
+    actionIcons: {edit: true, delete: false, more: false, print: false},
     doneLoading: false,
     deleting: {},
     active: {},
@@ -63,7 +63,7 @@ export class RefferealFeedbackComponent implements OnInit {
         return {
           ...item,
           referralTypeName: referral_type ? referral_type.referralTypeName : ''
-        }
+        };
       }
     );
     this.loading = false;
@@ -90,23 +90,36 @@ export class RefferealFeedbackComponent implements OnInit {
 
   async save(formValue) {
     this.saving_data = true;
-    const payload: any = [{
+    let payload: any = [{
       desc: formValue.desc,
       descSw: formValue.descSw,
       referralType: {
         referralTypeId: formValue.referralType
       }
     }];
+    let url = 'create-referral-feedback';
     if (this.itemId) {
       payload[0].id = this.itemId;
+      url = 'update-referral-feedback';
+      payload = {
+        id: this.itemId,
+        desc: formValue.desc,
+        descSw: formValue.descSw,
+        referralType: {
+          referralTypeId: formValue.referralType
+        }
+      };
     }
     try {
-      const saved = await this.httpClient.postOpenSRP('create-referral-feedback', payload).toPromise();
-      this.loading = false;
+      const saved = await this.httpClient.postOpenSRP(url, payload).toPromise();
+      this.saving_data = false;
       this.httpClient.showSuccess('Referral Feedback Created Successful');
       this.getItems();
+      this.closeForm();
+      this.submitForm.reset();
     } catch (e) {
       console.log(e);
+      this.saving_data = false;
       this.httpClient.showError('Something went wrong, Try Again', 3000);
     }
   }

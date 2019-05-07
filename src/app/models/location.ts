@@ -2,9 +2,10 @@ export interface Location {
   uuid: string;
   name: string;
   display: string;
-  links: Array<Object>;
-  tags: Array<Object>;
-  parentLocation: Object;
-  childLocations: Array<Object>;
+  description: string;
+  links: Array<any>;
+  tags: Array<any>;
+  parentLocation: any;
+  childLocations: Array<any>;
   confirmDelete: false;
 }

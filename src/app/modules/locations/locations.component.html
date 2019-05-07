@@ -1,0 +1,34 @@
+<app-table-form
+  image="pie-chart"
+  title="Indicators"
+  [hideAdd]="false"
+  [viewDetails]="viewDetails"
+  animationSize="largeForm"
+  [smallForm]="true"
+  (addItem)="add()"
+  (close)="closeForm()"
+  [showTopBanner]="false"
+>
+
+  <ng-container ngProjectAs="table">
+
+    <app-main-data-table
+      *ngIf="tableConfigurations.tableColumns"
+      [tableConfigurations]="tableConfigurations"
+      [loading]="loading"
+      [tableList]="items"
+      (rowPreview)="viewMore($event)"
+      (rowUpdate)="onUpdate($event)"
+      (rowDelete)="onDelete($event)"
+    ></app-main-data-table>
+  </ng-container>
+  <ng-container ngProjectAs="form">
+     <app-add-location
+       [locations]="items"
+       (saved)="loadLocations1()"
+       (close)="closeForm()"
+       [currentLocation]="currentLocation"
+       *ngIf="view_type == 'addData'"
+     ></app-add-location>
+  </ng-container>
+</app-table-form>

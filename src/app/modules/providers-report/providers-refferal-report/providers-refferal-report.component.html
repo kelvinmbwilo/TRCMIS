@@ -72,7 +72,9 @@
         ></app-multiselect>
       </div>
       <div class="col-7" *ngIf="selected_providers.length != 0">
-        <button class="btn btn-outline-secondary" (click)="getData()">Get Report</button>
+        <button class="btn btn-outline-secondary" (click)="getData()">Get Report</button> &nbsp;
+        <button *ngIf="done_loading && !show_detailed" class="btn btn-outline-secondary" (click)="show_detailed = true">Get Detailed</button>
+        <button *ngIf="done_loading && show_detailed" class="btn btn-outline-secondary" (click)="show_detailed = false">Get Summary</button>
       </div>
     </div>
 
@@ -83,7 +85,7 @@
     </div>
 
     <div class="row mt-5" *ngIf="done_loading">
-      <div class="col">
+      <div class="col" *ngIf="!show_detailed" @fadeIn>
         <h4 class="text-center">Service Provided by {{ selected_providers_names }} for {{ orgunitnames }} from {{
           start_date | date:'mediumDate' }} to {{ end_date | date:'mediumDate' }}</h4>
         <table class="table table-bordered">
@@ -94,6 +96,25 @@
           <tr *ngFor="let data of values">
             <td>{{ data.serviceName }}</td>
             <td>{{ data.count }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="col" *ngIf="show_detailed" @fadeIn>
+        <h4 class="text-center">Detailed Service Provided by {{ selected_providers_names }} for {{ orgunitnames }} from {{
+          start_date | date:'mediumDate' }} to {{ end_date | date:'mediumDate' }}</h4>
+        <table class="table table-bordered">
+          <tr>
+            <th>Service Provider</th>
+            <th>Client</th>
+            <th>Facility</th>
+            <th>Refferal Status</th>
+          </tr>
+          <tr *ngFor="let data of detailed_values">
+            <td>{{ data.service_provider_name }}</td>
+            <td>{{ data.client_name }}</td>
+            <td>{{ data.facility_name }}</td>
+            <td>{{ data.referral_status }}</td>
           </tr>
         </table>
       </div>

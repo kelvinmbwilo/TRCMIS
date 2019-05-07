@@ -24,16 +24,26 @@ export class TotalRegisteredClientsComponent implements OnInit {
   hiddenColumns: string[] = [];
   hiddenRows: string[] = [];
   columns: string[] = [
-    'JUMLA',
-    'CHINI YA MWAKA MMOJA',
-    'MIAKA 1-5',
-    'MIAKA 6 - 9',
-    'MIAKA 10 - 14',
-    'MIAKA 15 - 19',
-    'MIAKA 20 - 24',
-    'MIAKA 25 - 49',
-    'MIAKA 50 - 59',
-    'MIAKA 60+',
+    'JUMLA ME',
+    'JUMLA KE',
+    'CHINI YA MWAKA MMOJA ME',
+    'CHINI YA MWAKA MMOJA KE',
+    'MIAKA 1-5 ME',
+    'MIAKA 1-5 KE',
+    'MIAKA 6 - 9 ME',
+    'MIAKA 6 - 9 KE',
+    'MIAKA 10 - 14 ME',
+    'MIAKA 10 - 14 KE',
+    'MIAKA 15 - 19 ME',
+    'MIAKA 15 - 19 KE',
+    'MIAKA 20 - 24 ME',
+    'MIAKA 20 - 24 KE',
+    'MIAKA 25 - 49 ME',
+    'MIAKA 25 - 49 KE',
+    'MIAKA 50 - 59 ME',
+    'MIAKA 50 - 59 KE',
+    'MIAKA 60+ ME',
+    'MIAKA 60+ KE',
   ];
   @ViewChild('dataTable') dataTable: ElementRef;
   totals: any = {};

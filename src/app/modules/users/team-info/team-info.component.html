@@ -1,0 +1,33 @@
+
+<div class="container-fluid">
+  <mat-list *ngIf="team">
+    <mat-list-item>
+      <p>Name:
+        <b>{{team.teamName}}</b>
+      </p>
+    </mat-list-item>
+    <mat-list-item>
+      <p>Supervisor:
+        <b>{{team.supervisor}}</b>
+      </p>
+    </mat-list-item>
+    <mat-list-item>
+      <p>Location:
+        <b>{{team.locationName}}</b>
+      </p>
+    </mat-list-item>
+  </mat-list>
+
+  <div class="col-sm-12">
+    <h5>Members</h5>
+    <app-main-data-table
+      *ngIf="tableConfigurations.tableColumns && team.teamMembers"
+      [tableConfigurations]="tableConfigurations"
+      [loading]="false"
+      [tableList]="members"
+      (rowUpdate)="onUpdate($event)"
+      (rowDelete)="onDelete($event)"
+    ></app-main-data-table>
+  </div>
+</div>
+

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Indicator} from '../../../models/indicator.model';
 import {HttpClientService} from '../../../services/http-client.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -29,31 +29,32 @@ export class IndicatorsComponent implements OnInit {
     showSearch: true,
     showBorder: true,
     allowPagination: true,
-    actionIcons: {edit: true, delete: true, more: false, print: false},
+    actionIcons: {edit: true, delete: false, more: false, print: false},
     doneLoading: false,
     deleting: {},
     active: {},
     empty_msg: 'No Indicators'
   };
   submitForm: FormGroup;
+
   constructor(
     private httpClient: HttpClientService,
     private fb: FormBuilder
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
-   this.getItems();
-   this.submitForm = this.fb.group({
-     indicatorName: ['', Validators.required],
-     indicatorNameSw: ['', Validators.required],
-     isActive: [true]
-   });
+    this.getItems();
+    this.submitForm = this.fb.group({
+      indicatorName: ['', Validators.required],
+      indicatorNameSw: ['', Validators.required],
+      isActive: [true]
+    });
   }
 
   async getItems() {
     this.loading = true;
     const items = await this.httpClient.getOpenSRP('get-indicators').toPromise();
-    console.log('nafika', items);
     this.items = items.map(
       item => ({
         ...item,
@@ -85,21 +86,24 @@ export class IndicatorsComponent implements OnInit {
   async save(formValue) {
     this.saving_data = true;
     const payload: any = [{
-        indicatorName: formValue.indicatorName,
-        indicatorNameSw: formValue.indicatorNameSw,
-        isActive: formValue.isActive
-      }];
+      indicatorName: formValue.indicatorName,
+      indicatorNameSw: formValue.indicatorNameSw,
+      isActive: formValue.isActive
+    }];
     if (this.itemId) {
       payload[0].indicatorId = this.itemId;
     }
     try {
       const saved = await this.httpClient.postOpenSRP('create-referral-indicators', payload).toPromise();
-      this.loading = false;
+      this.saving_data = false;
       this.httpClient.showSuccess('Indicator Created Successful');
       this.getItems();
+      this.closeForm();
+      this.submitForm.reset();
     } catch (e) {
-       console.log(e);
-       this.httpClient.showError('Something went wrong, Try Again', 3000);
+      this.saving_data = false;
+      console.log(e);
+      this.httpClient.showError('Something went wrong, Try Again', 3000);
     }
   }
 

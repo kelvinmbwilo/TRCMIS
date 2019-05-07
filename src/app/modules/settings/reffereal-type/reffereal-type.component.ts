@@ -29,7 +29,7 @@ export class RefferealTypeComponent implements OnInit {
     showSearch: true,
     showBorder: true,
     allowPagination: true,
-    actionIcons: {edit: true, delete: true, more: false, print: false},
+    actionIcons: {edit: true, delete: false, more: false, print: false},
     doneLoading: false,
     deleting: {},
     active: {},
@@ -91,11 +91,15 @@ export class RefferealTypeComponent implements OnInit {
     }
     try {
       const saved = await this.httpClient.postOpenSRP('create-referral-types', payload).toPromise();
-      this.loading = false;
+      this.saving_data = false;
       this.httpClient.showSuccess('Referral Type Created Successful');
       this.getItems();
+
+      this.closeForm();
+      this.submitForm.reset();
     } catch (e) {
       console.log(e);
+      this.saving_data = false;
       this.httpClient.showError('Something went wrong, Try Again', 3000);
     }
   }

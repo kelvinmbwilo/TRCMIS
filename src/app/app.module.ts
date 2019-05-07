@@ -30,6 +30,13 @@ import { TotalIssuedLostFollowupComponent } from './modules/reports/total-issued
 import { TotalLostFollowupComponent } from './modules/reports/total-lost-followup/total-lost-followup.component';
 import { TotalFailedReferralsComponent } from './modules/reports/total-failed-referrals/total-failed-referrals.component';
 import { SuccessfulMaraliaReferalsComponent } from './modules/reports/successful-maralia-referals/successful-maralia-referals.component';
+import { LocationsComponent } from './modules/locations/locations.component';
+import {AddLocationComponent} from './modules/locations/add-location/add-location.component';
+import { UsersComponent } from './modules/users/users.component';
+import { AddMemberComponent } from './modules/users/add-member/add-member.component';
+import { TeamInfoComponent } from './modules/users/team-info/team-info.component';
+import { AddTeamComponent } from './modules/users/add-team/add-team.component';
+import { UpdateMemberComponent } from './modules/users/update-member/update-member.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +64,14 @@ import { SuccessfulMaraliaReferalsComponent } from './modules/reports/successful
     TotalIssuedLostFollowupComponent,
     TotalLostFollowupComponent,
     TotalFailedReferralsComponent,
-    SuccessfulMaraliaReferalsComponent
+    SuccessfulMaraliaReferalsComponent,
+    LocationsComponent,
+    AddLocationComponent,
+    UsersComponent,
+    AddMemberComponent,
+    TeamInfoComponent,
+    AddTeamComponent,
+    UpdateMemberComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +81,7 @@ import { SuccessfulMaraliaReferalsComponent } from './modules/reports/successful
     FormsModule,
     ReactiveFormsModule
   ],
+  entryComponents: [UpdateMemberComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

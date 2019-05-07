@@ -1,14 +1,23 @@
+import {TeamMember} from './team-member';
+
 export interface Team {
+  id: string;
   uuid: string;
-  identifier: string;
+  display: string;
   teamName: string;
-  voiced: string;
-  location: string;
+  teamIdentifier: string;
   supervisor: string;
-  owns_team: string;
-  reported_to: string;
-  reported_by: string;
-  members: string;
-  confirmDelete: boolean;
+  supervisorUuid: string;
+  supervisorTeam: string;
+  supervisorTeamUuid: string;
+  supervisorIdentifier: string;
+  location: {
+    uuid: string;
+    display: string;
+    name: string;
+  };
+  members: number;
+  locationName: string;
+  teamMembers: TeamMember[];
 }
 

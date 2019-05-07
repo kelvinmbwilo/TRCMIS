@@ -75,7 +75,7 @@
             <td class="gen1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('WANAWAKE')">{{row.female || '-'}}</td>
           </tr>
         </ng-container>
-        <tr>
+        <tr *ngIf="hiddenRows.length == 0 && hiddenColumns.length == 0">
           <td colspan="2"><b>JUMLA</b></td>
           <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">{{totals.total }}</th>
           <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('WANAUME')">{{totals.male }}</th>

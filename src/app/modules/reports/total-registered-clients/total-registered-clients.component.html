@@ -54,91 +54,91 @@
         <thead>
         <tr>
           <th colspan="2"></th>
-          <th class="text-center" colspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">JUMLA</th>
-          <th class="text-center" colspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA')">CHINI YA MWAKA MMOJA</th>
-          <th class="text-center" colspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5')">MIAKA <br> 1-5</th>
-          <th class="text-center" colspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9')">MIAKA <br> 6 - 9</th>
-          <th class="text-center" colspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14')">MIAKA <br> 10 - 14</th>
-          <th class="text-center" colspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19')">MIAKA <br> 15 - 19</th>
-          <th class="text-center" colspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24')">MIAKA <br> 20 - 24</th>
-          <th class="text-center" colspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49')">MIAKA <br> 25 - 49</th>
-          <th class="text-center" colspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59')">MIAKA <br> 50 - 59</th>
-          <th class="text-center" colspan="2" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+')">MIAKA <br> 60+</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('JUMLA ME') && visibleColumns.includes('JUMLA KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA ME') || visibleColumns.includes('JUMLA KE')">JUMLA</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('CHINI YA MWAKA MMOJA ME') && visibleColumns.includes('CHINI YA MWAKA MMOJA KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA ME') || visibleColumns.includes('CHINI YA MWAKA MMOJA KE')">CHINI YA MWAKA MMOJA</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('MIAKA 1-5 ME') && visibleColumns.includes('MIAKA 1-5 KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5 ME') || visibleColumns.includes('MIAKA 1-5 KE')">MIAKA <br> 1-5</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('MIAKA 6 - 9 ME') && visibleColumns.includes('MIAKA 6 - 9 KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9 ME') || visibleColumns.includes('MIAKA 6 - 9 KE')">MIAKA <br> 6 - 9</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('MIAKA 10 - 14 ME') && visibleColumns.includes('MIAKA 10 - 14 KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14 ME') || visibleColumns.includes('MIAKA 10 - 14 KE')">MIAKA <br> 10 - 14</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('MIAKA 15 - 19 ME') && visibleColumns.includes('MIAKA 15 - 19 KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19 ME') || visibleColumns.includes('MIAKA 15 - 19 KE')">MIAKA <br> 15 - 19</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('MIAKA 20 - 24 ME') && visibleColumns.includes('MIAKA 20 - 24 KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24 ME') || visibleColumns.includes('MIAKA 20 - 24 KE')">MIAKA <br> 20 - 24</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('MIAKA 25 - 49 ME') && visibleColumns.includes('MIAKA 25 - 49 KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49 ME') || visibleColumns.includes('MIAKA 25 - 49 KE')">MIAKA <br> 25 - 49</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('MIAKA 50 - 59 ME') && visibleColumns.includes('MIAKA 50 - 59 KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59 ME') || visibleColumns.includes('MIAKA 50 - 59 KE')">MIAKA <br> 50 - 59</th>
+          <th class="text-center" [attr.colspan]="visibleColumns.includes('MIAKA 60+ ME') && visibleColumns.includes('MIAKA 60+ KE') ? 2 : 1" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+ ME') || visibleColumns.includes('MIAKA 60+ KE')">MIAKA <br> 60+</th>
         </tr>
         </thead>
         <tbody>
         <tr>
           <th style="width: 10px">SN</th>
           <th>{{ main_title }}</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">ME</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">KE</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA')">ME</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA')">KE</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5')">ME</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5')">KE</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9')">ME</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9')">KE</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14')">ME</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14')">KE</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19')">ME</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19')">KE</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24')">ME</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24')">KE</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49')">ME</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49')">KE</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59')">ME</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59')">KE</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+')">ME</th>
-          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+')">KE</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA ME')">ME</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA KE')">KE</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA ME')">ME</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA KE')">KE</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5 ME')">ME</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5 KE')">KE</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9 ME')">ME</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9 KE')">KE</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14 ME')">ME</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14 KE')">KE</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19 ME')">ME</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19 KE')">KE</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24 ME')">ME</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24 KE')">KE</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49 ME')">ME</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49 KE')">KE</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59 ME')">ME</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59 KE')">KE</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+ ME')">ME</th>
+          <th class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+ KE')">KE</th>
         </tr>
         <ng-container *ngFor="let row of jsonData;">
           <tr *ngIf="visibleRows.includes(row.itemName)">
             <td>{{row.sn}}</td>
             <td>{{row.itemName}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">{{row.totalMale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">{{row.totalFemale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA')">{{row.lessThan1Male || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA')">{{row.lessThan1Female || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5')">{{row.oneTofiveMale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5')">{{row.oneTofiveFemale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9')">{{row.sixToNineMale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9')">{{row.sixToNineFemale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14')">{{row.tenToFourteenMale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14')">{{row.tenToFourteenFemale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19')">{{row.fifteenToNineteenMale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19')">{{row.fifteenToNineteenFemale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24')">{{row.twentyToTwentyFourMale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24')">{{row.twentyToTwentyFourFemale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49')">{{row.twentyFiveToFourtyNineMale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49')">{{row.twentyFiveToFourtyNineFemale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59')">{{row.fiftyToFiftyNineMale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59')">{{row.fiftyToFiftyNineFemale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+')">{{row.aboveSixtyMale || '-'}}</td>
-            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+')">{{row.aboveSixtyFemale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA ME')">{{row.totalMale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA KE')">{{row.totalFemale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA ME')">{{row.lessThan1Male || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA KE')">{{row.lessThan1Female || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5 ME')">{{row.oneTofiveMale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5 KE')">{{row.oneTofiveFemale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9 ME')">{{row.sixToNineMale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9 KE')">{{row.sixToNineFemale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14 ME')">{{row.tenToFourteenMale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14 KE')">{{row.tenToFourteenFemale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19 ME')">{{row.fifteenToNineteenMale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19 KE')">{{row.fifteenToNineteenFemale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24 ME')">{{row.twentyToTwentyFourMale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24 KE')">{{row.twentyToTwentyFourFemale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49 ME')">{{row.twentyFiveToFourtyNineMale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49 KE')">{{row.twentyFiveToFourtyNineFemale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59 ME')">{{row.fiftyToFiftyNineMale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59 KE')">{{row.fiftyToFiftyNineFemale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+ ME')">{{row.aboveSixtyMale || '-'}}</td>
+            <td class="gen" @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+ KE')">{{row.aboveSixtyFemale || '-'}}</td>
           </tr>
         </ng-container>
-        <tr>
+        <tr *ngIf="hiddenRows.length == 0 && hiddenColumns.length == 0" >
           <td colspan="2"><b>JUMLA</b></td>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">{{totals.totalMale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA')">{{totals.totalFemale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA')">{{totals.lessThan1Male}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA')">{{totals.lessThan1Female}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5')">{{totals.oneTofiveMale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5')">{{totals.oneTofiveFemale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9')">{{totals.sixToNineMale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9')">{{totals.sixToNineFemale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14')">{{totals.tenToFourteenMale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14')">{{totals.tenToFourteenFemale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19')">{{totals.fifteenToNineteenMale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19')">{{totals.fifteenToNineteenFemale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24')">{{totals.twentyToTwentyFourMale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24')">{{totals.twentyToTwentyFourFemale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49')">{{totals.twentyFiveToFourtyNineMale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49')">{{totals.twentyFiveToFourtyNineFemale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59')">{{totals.fiftyToFiftyNineMale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59')">{{totals.fiftyToFiftyNineFemale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+')">{{totals.aboveSixtyMale}}</th>
-          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+')">{{totals.aboveSixtyFemale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA ME')">{{totals.totalMale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('JUMLA KE')">{{totals.totalFemale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA ME')">{{totals.lessThan1Male}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('CHINI YA MWAKA MMOJA KE')">{{totals.lessThan1Female}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5 ME')">{{totals.oneTofiveMale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 1-5 KE')">{{totals.oneTofiveFemale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9 ME')">{{totals.sixToNineMale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 6 - 9 KE')">{{totals.sixToNineFemale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14 ME')">{{totals.tenToFourteenMale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 10 - 14 KE')">{{totals.tenToFourteenFemale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19 ME')">{{totals.fifteenToNineteenMale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 15 - 19 KE')">{{totals.fifteenToNineteenFemale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24 ME')">{{totals.twentyToTwentyFourMale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 20 - 24 KE')">{{totals.twentyToTwentyFourFemale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49 ME')">{{totals.twentyFiveToFourtyNineMale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 25 - 49 KE')">{{totals.twentyFiveToFourtyNineFemale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59 ME')">{{totals.fiftyToFiftyNineMale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 50 - 59 KE')">{{totals.fiftyToFiftyNineFemale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+ ME')">{{totals.aboveSixtyMale}}</th>
+          <th @fadeIn @fadeOut *ngIf="visibleColumns.includes('MIAKA 60+ KE')">{{totals.aboveSixtyFemale}}</th>
         </tr>
 
         </tbody>
